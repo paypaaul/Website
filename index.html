@@ -6,15 +6,13 @@
     <title>Paul | Portfolio Engineering</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
 
     <style>
         /* --- GESTIONE TEMI AVANZATA --- */
         :root {
-            /* --- LIGHT MODE (Default) --- */
+            /* --- LIGHT MODE --- */
             --primary: #FF6700;
             --bg-color: #EBEBEB;
             --card-bg: #ffffff;
@@ -24,12 +22,10 @@
             --shadow: rgba(0,0,0,0.1);
             --modal-overlay: rgba(0,0,0,0.9);
             
-            /* Colori Sezioni Finali */
             --contact-bg: #2c2c2c;
             --contact-text: #f0f0f0;
             --footer-bg: #111111;
             
-            /* Colori Icone Dinamici */
             --icon-github: #171515;
             --icon-print: #333333;
             --icon-brightness: 100%;
@@ -65,21 +61,37 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* --- NAVIGATORE IMPOSTAZIONI --- */
+        /* --- NAVIGATORE IMPOSTAZIONI (FISSO) --- */
         .settings-bar {
-            position: absolute; top: 20px; right: 20px; z-index: 100;
-            display: flex; gap: 15px;
+            position: fixed; /* ORA È FISSO */
+            top: 20px;
+            right: 20px;
+            z-index: 1500; /* Sopra a tutto tranne la modale */
+            display: flex;
+            gap: 15px;
         }
 
         .settings-btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white; padding: 8px 15px; border-radius: 20px;
-            cursor: pointer; font-weight: bold; transition: all 0.3s;
-            display: flex; align-items: center; gap: 5px;
+            /* Stile solido per essere visibile su ogni sfondo */
+            background-color: var(--card-bg); 
+            color: var(--text-color);
+            border: 2px solid var(--primary); /* Bordo colorato */
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Ombra per staccarlo dallo sfondo */
         }
-        .settings-btn:hover { background: var(--primary); border-color: var(--primary); }
+
+        .settings-btn:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
 
         /* --- HERO SECTION --- */
         header {
@@ -233,7 +245,7 @@
             object-fit: cover; margin-bottom: 15px;
         }
 
-        /* --- CONTATTI E FOOTER (ADATTIVI) --- */
+        /* --- CONTATTI E FOOTER --- */
         .contact-section {
             background-color: var(--contact-bg);
             color: var(--contact-text);
@@ -261,17 +273,16 @@
         
         /* --- VERSIONE MOBILE --- */
         @media (max-width: 768px) {
-            /* Adattamenti testi e contenitori */
             h1 { font-size: 3rem; }
             .card-media { height: 250px; }
             .carousel-container { height: 300px; }
             .settings-bar { top: 10px; right: 10px; gap: 10px; }
-            .settings-btn { padding: 6px 12px; font-size: 0.9rem; }
+            .settings-btn { padding: 6px 12px; font-size: 0.8rem; }
 
-            /* --- FIX PER LO SFONDO SU TELEFONO --- */
+            /* FIX SFONDO MOBILE */
             header { 
                 height: 100vh;
-                background-attachment: scroll !important; /* Importante per mobile */
+                background-attachment: scroll !important; 
                 background-position: center center; 
                 background-size: cover;
             }
@@ -305,7 +316,6 @@
             <div class="skill-item"> <i class="fab fa-python" style="color:#3776AB;"></i> <span class="skill-text">Python</span> </div>
             <div class="skill-item"> <i class="fas fa-code" style="color:#00599C;"></i> <span class="skill-text">C / Embedded</span> </div>
             <div class="skill-item"> <i class="fas fa-cube" style="color:#FF6700;"></i> <span class="skill-text">CAD Design</span> </div>
-            
             <div class="skill-item"> <i class="fas fa-print icon-print"></i> <span class="skill-text" data-lang="skill_3d">3D Printing</span> </div>
             <div class="skill-item"> <i class="fas fa-microchip" style="color:#3A6EA5;"></i> <span class="skill-text">Electronics</span> </div>
             <div class="skill-item"> <i class="fab fa-github icon-github"></i> <span class="skill-text">GitHub</span> </div>
@@ -322,7 +332,7 @@
                 </div>
                 <div class="card-content">
                     <h3 class="card-title">Hexapod v0</h3>
-                    <p class="card-desc" data-lang="desc_exabot_short">Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante focalizzato sulla meccanica e cinematica inversa.</p>
+                    <p class="card-desc" data-lang="desc_exabot_short">Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante focalizzato sulla meccanica e logica di movimento.</p>
                     <button class="btn" onclick="openModal('modal-exabot')" data-lang="btn_details">Dettagli Tecnici</button>
                 </div>
             </article>
@@ -361,9 +371,9 @@
                 </div>
                 <div class="tech-block">
                     <h3><i class="fas fa-ruler-combined"></i> <span data-lang="specs">Specifiche</span></h3>
-                    <p><strong data-lang="dimensions">Dimensioni:</strong> [cm]</p>
-                    <p><strong data-lang="weight">Peso:</strong> [kg]</p>
-                    <p><strong data-lang="payload">Carico:</strong> [kg]</p>
+                    <p><strong data-lang="dimensions">Dimensioni:</strong> - [cm]</p>
+                    <p><strong data-lang="weight">Peso:</strong> - [kg]</p>
+                    <p><strong data-lang="payload">Carico MAX:</strong> - [kg]</p>
                 </div>
                 <div class="tech-block" style="grid-column: 1 / -1;">
                     <h3><i class="fas fa-sync-alt"></i> <span data-lang="improvements">Miglioramenti</span></h3>
@@ -402,7 +412,6 @@
                     <p data-lang="design_dumbe_1"><strong>Struttura:</strong> 100% CAD Custom.</p>
                     <p data-lang="design_dumbe_2"><strong>Modularità:</strong> Giunti intercambiabili.</p>
                     <p data-lang="design_dumbe_3"><strong>End Effector:</strong> Tripla pinza.</p>
-                    
                 </div>
                 <div class="tech-block" style="grid-column: 1 / -1;">
                     <h3><i class="fas fa-hard-hat"></i> <span data-lang="wip_status">WIP Status</span></h3>
@@ -436,7 +445,7 @@
                 Sono qui per imparare e migliorare.
             </p>
             <div class="social-links">
-                <a href="https://www.linkedin.com/in/ILTUONOME" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/paolo-vezzini-61997720a" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 <a href="https://instagram.com/pay.paaul" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://github.com/paypaaul" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
                 <a href="mailto:paolo.vezzini1@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
@@ -454,28 +463,25 @@
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // --- 1. GESTIONE TEMI (DARK/LIGHT) ---
+        // --- GESTIONE TEMI ---
         function toggleTheme() {
             const body = document.body;
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme); 
-            
             const icon = document.querySelector('#theme-btn i');
             icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
 
         const savedTheme = localStorage.getItem('theme');
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
         if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
             document.body.setAttribute('data-theme', 'dark');
             document.querySelector('#theme-btn i').className = 'fas fa-sun';
         }
 
-        // --- 2. GESTIONE LINGUE ---
+        // --- GESTIONE LINGUE ---
         let currentLang = localStorage.getItem('lang') || 'it';
 
        const translations = {
@@ -499,20 +505,15 @@
                 donate_info: '(Per info dopo la donazione contattami)',
                 contact_title: 'Parliamone!',
                 contact_text: 'Sono entusiasta di ricevere consigli o critiche costruttive.<br>Sono qui per imparare e migliorare.',
-                
-                // Descrizioni Brevi
-                desc_exabot_short: 'Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante focalizzato sulla meccanica e cinematica inversa.',
+                desc_exabot_short: 'Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante focalizzato sulla meccanica e logica di movimento.',
                 desc_dumbe_short: 'Braccio robotico antropomorfo a 6 gradi di libertà (6-DOF) interamente progettato in CAD. Design modulare con riduttori cicloidali.',
-
-                // LISTE (BOM & WIP)
-                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motori:</strong> 18x MG996R</li><li><strong>Alimentazione:</strong> LiPo 2S (7.4V) + Buck 15A</li>`,
+                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motori:</strong> 18x MG996R</li><li><strong>Alimentazione:</strong> LiPo 2S (7.4V) + Buck 15A</li>
+                            <li><strong>Struttura:</strong> Stampato in 3D (PLA) da Thingiverse.</li>`,
                 wip_exabot: `<li>Integrazione <strong>SSC32-V2.5</strong> per jitter.</li><li>Irrobustimento alimentazione.</li><li>Valutazione integrazione di sensori vari.</li><li><strong>V2:</strong> Telaio custom in via di sviluppo.</li>`,
-                
                 bom_dumbe: `<li><strong>Motori:</strong> Nema 17 (1.7A)</li><li><strong>Riduttori:</strong> Cicloidali 20:1</li><li><strong>Driver:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>
                             <li><strong>Alimentazione:</strong> 24V 15A + 5V 5A Convertitore Buck</li><li><strong>Sensori:</strong> GY-521/GY-6500 per bilanciamento, Hall Effect per homing</li>`,
                 wip_dumbe_list: `<li>Stampa struttura e test.</li><li>Cablaggio Alimentazione e TMC2209.</li><li>Sviluppo firmware.</li>`,
-
-                design_dumbe_1: '<strong>Struttura:</strong> CAD Custom.',
+                design_dumbe_1: '<strong>Struttura:</strong> Custom stampata in 3D (PLA).',
                 design_dumbe_2: '<strong>Modularità:</strong> Giunti intercambiabili.',
                 design_dumbe_3: '<strong>End Effector:</strong> Tripla pinza.'
             },
@@ -531,23 +532,20 @@
                 improvements: 'Improvements',
                 wip_status: 'WIP Status',
                 donate_title: 'Support my projects',
-                donate_text: 'Building robots involves costs.<br>If you like what I do, a donation helps a lot!<br><br><strong>🎁 Rewards:</strong> For donations over <strong>15€</strong>, you get a custom wooden keychain engraved with laser.',
+                donate_text: 'Building robots involves costs.<br>If you like what I do, a donation helps a lot!<br><br><strong>🎁 Rewards:</strong> For donations over <strong>15€</strong>, you get a custom wooden keychain engraveed with laser.',
                 btn_donate: 'Donate with PayPal',
                 donate_info: '(Contact me after donation for info)',
                 contact_title: 'Let\'s Talk!',
                 contact_text: 'I am super excited to receive advice, ideas, or constructive criticism.<br>I am here to learn and improve.',
-
-                desc_exabot_short: 'A 3D printed hexapod robot controlled via ESP32. Working prototype focused on mechanics and inverse kinematics.',
+                desc_exabot_short: 'A 3D printed hexapod robot controlled via ESP32. Working prototype focused on mechanics and movement logic.',
                 desc_dumbe_short: 'Anthropomorphic 6-DOF robotic arm fully designed in CAD. Modular design with cycloidal drives.',
-
-                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motors:</strong> 18x MG996R</li><li><strong>Power Supply:</strong> LiPo 2S (7.4V) + Buck Converter 15A</li>`,
+                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motors:</strong> 18x MG996R</li><li><strong>Power Supply:</strong> LiPo 2S (7.4V) + Buck Converter 15A</li>
+                            <li><strong>Structure:</strong> 3D printed (PLA) from Thingiverse.</li>`,
                 wip_exabot: `<li>Integration of <strong>SSC32-V2.5</strong> (jitter fix).</li><li>Power wiring upgrade.</li><li>Assessment of integration of multiple sensors.</li><li><strong>V2:</strong> Custom Frame under development.</li>`,
-
                 bom_dumbe: `<li><strong>Motors:</strong> Nema 17 (1.7A)</li><li><strong>Gears:</strong> Cycloidal 20:1</li><li><strong>Drivers:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>
                             <li><strong>Power Supply:</strong> 24V 15A + 5V 5A Buck Converter</li><li><strong>Sensors:</strong> GY-521/GY-6500 for balancing, Hall Effect for homing</li>`,
                 wip_dumbe_list: `<li>Structure printing & testing.</li><li>TMC2209 and Power Wiring.</li><li>Firmware development.</li>`,
-
-                design_dumbe_1: '<strong>Structure:</strong> Custom CAD.',
+                design_dumbe_1: '<strong>Structure:</strong> Custom 3D printed (PLA).',
                 design_dumbe_2: '<strong>Modularity:</strong> Interchangeable joints.',
                 design_dumbe_3: '<strong>End Effector:</strong> Triple Gripper.'
             }
