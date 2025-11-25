@@ -25,14 +25,14 @@
             --modal-overlay: rgba(0,0,0,0.9);
             
             /* Colori Sezioni Finali */
-            --contact-bg: #2c2c2c; /* Grigio scuro per contrasto su light */
+            --contact-bg: #2c2c2c;
             --contact-text: #f0f0f0;
             --footer-bg: #111111;
             
             /* Colori Icone Dinamici */
             --icon-github: #171515;
             --icon-print: #333333;
-            --icon-brightness: 100%; /* Luminosità standard */
+            --icon-brightness: 100%;
         }
 
         /* --- DARK MODE --- */
@@ -41,19 +41,17 @@
             --card-bg: #1e1e1e;
             --text-color: #f0f0f0;
             --text-secondary: #aaaaaa;
-            --accent: #64a6ea; /* Blu più chiaro */
+            --accent: #64a6ea;
             --shadow: rgba(0,0,0,0.5);
             --modal-overlay: rgba(0,0,0,0.95);
             
-            /* Le sezioni finali diventano nere o grigio molto scuro */
             --contact-bg: #000000; 
             --contact-text: #dddddd;
             --footer-bg: #0a0a0a;
 
-            /* Invertiamo le icone scure per farle diventare chiare */
             --icon-github: #ffffff;
             --icon-print: #e0e0e0;
-            --icon-brightness: 130%; /* Aumenta luminosità delle icone colorate */
+            --icon-brightness: 130%;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,7 +62,7 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease; /* Transizione fluida */
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* --- NAVIGATORE IMPOSTAZIONI --- */
@@ -120,13 +118,11 @@
             cursor: default; position: relative; min-width: 100px;
         }
         
-        /* Gestione colori icone per tema */
         .skill-item i {
             transition: color 0.4s ease, filter 0.4s ease;
-            filter: brightness(var(--icon-brightness)); /* Aumenta luminosità in dark mode */
+            filter: brightness(var(--icon-brightness));
         }
         
-        /* Icone specifiche che cambiano colore con il tema */
         .icon-github { color: var(--icon-github) !important; }
         .icon-print { color: var(--icon-print) !important; }
 
@@ -239,7 +235,7 @@
 
         /* --- CONTATTI E FOOTER (ADATTIVI) --- */
         .contact-section {
-            background-color: var(--contact-bg); /* Variabile Dinamica */
+            background-color: var(--contact-bg);
             color: var(--contact-text);
             padding: 60px 20px; text-align: center;
             transition: background 0.4s ease;
@@ -250,22 +246,35 @@
         
         .social-links { display: flex; justify-content: center; gap: 30px; margin-top: 30px; }
         .social-links a {
-            color: var(--contact-text); /* Adatta il colore al tema */
+            color: var(--contact-text);
             font-size: 2.5rem; transition: color 0.3s, transform 0.3s;
         }
         .social-links a:hover { color: var(--primary); transform: scale(1.2); }
 
         footer {
-            background-color: var(--footer-bg); /* Variabile Dinamica */
+            background-color: var(--footer-bg);
             color: #888; text-align: center; padding: 20px; font-size: 0.8rem;
             transition: background 0.4s ease;
         }
 
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-15px);} 60% {transform: translateY(-7px);} }
+        
+        /* --- VERSIONE MOBILE --- */
         @media (max-width: 768px) {
-            h1 { font-size: 3rem; } .card-media { height: 250px; } header { height: 100vh; }
-            .carousel-container { height: 300px; } .settings-bar { top: 10px; right: 10px; gap: 10px; }
+            /* Adattamenti testi e contenitori */
+            h1 { font-size: 3rem; }
+            .card-media { height: 250px; }
+            .carousel-container { height: 300px; }
+            .settings-bar { top: 10px; right: 10px; gap: 10px; }
             .settings-btn { padding: 6px 12px; font-size: 0.9rem; }
+
+            /* --- FIX PER LO SFONDO SU TELEFONO --- */
+            header { 
+                height: 100vh;
+                background-attachment: scroll !important; /* Importante per mobile */
+                background-position: center center; 
+                background-size: cover;
+            }
         }
     </style>
 </head>
@@ -338,7 +347,7 @@
             <p><strong data-lang="version">Versione:</strong> v0 (Prototipo Funzionante)</p>
             <br>
             <div class="carousel-container" id="carousel-exabot">
-                <div class="slide fade" style="display: flex;"> <div class="numbertext">1 / 4</div> <img src="data/hexapod.jpeg" alt="Exabot Foto"> </div>
+                <div class="slide fade" style="display: flex;"> <div class="numbertext">1 / 4</div> <img src="data/hexapod.png" alt="Exabot Foto"> </div>
                 <div class="slide fade"> <div class="numbertext">2 / 4</div> <img src="data/debugging_hexapod.jpeg" alt="Debugging"> </div>
                 <div class="slide fade"> <div class="numbertext">3 / 4</div> <img src="data/leg_hexapod.jpeg" alt="Leg"> </div>
                 <div class="slide fade"> <div class="numbertext">4 / 4</div> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/HTOONVzCEAM" title="YouTube video player" allowfullscreen></iframe> </div>
@@ -371,10 +380,15 @@
             <p><strong data-lang="version">Versione:</strong> v2 (Work in Progress)</p>
             <br>
             <div class="carousel-container" id="carousel-dumbe">
-                <div class="slide fade" style="display: flex;"> <div class="numbertext">1 / 4</div> <img src="data/dumbe-render.jpg" alt="Render CAD" onerror="this.src='data/dumbe.png'"> </div>
-                <div class="slide fade"> <div class="numbertext">2 / 4</div> <img src="data/CAD.png" alt="Modello in CAD"> </div>
-                <div class="slide fade"> <div class="numbertext">3 / 4</div> <img src="data/components.jpg" alt="Componenti"> </div>
-                <div class="slide fade"> <div class="numbertext">4 / 4</div> <model-viewer src="data/dumbe.glb" alt="Modello 3D Dumb-E" auto-rotate camera-controls shadow-intensity="1" style="width: 100%; height: 100%; background-color: #323232;"> <div slot="poster" style="display:flex; justify-content:center; align-items:center; height:100%;">Caricamento 3D...</div> </model-viewer> </div>
+                <div class="slide fade" style="display: flex;"> <div class="numbertext">1 / 9</div> <img src="data/dumbe-render.jpg" alt="Render CAD" onerror="this.src='data/dumbe.png'"> </div>
+                <div class="slide fade"> <div class="numbertext">2 / 9</div> <img src="data/CAD.png" alt="Modello in CAD"> </div>
+                <div class="slide fade"> <div class="numbertext">3 / 9</div> <img src="data/base.png" alt="Componenti"> </div>
+                <div class="slide fade"> <div class="numbertext">4 / 9</div> <img src="data/joint1.png" alt="Componenti"> </div>
+                <div class="slide fade"> <div class="numbertext">5 / 9</div> <img src="data/joint2.png" alt="Componenti"> </div>
+                <div class="slide fade"> <div class="numbertext">6 / 9</div> <img src="data/joint3.png" alt="Componenti"> </div>
+                <div class="slide fade"> <div class="numbertext">7 / 9</div> <img src="data/end_eff.png" alt="Componenti"> </div>
+                <div class="slide fade"> <div class="numbertext">8 / 9</div> <img src="data/components.jpg" alt="Componenti"> </div>
+                <div class="slide fade"> <div class="numbertext">9 / 9</div> <model-viewer src="data/dumbe.glb" alt="Modello 3D Dumb-E" auto-rotate camera-controls shadow-intensity="1" style="width: 100%; height: 100%; background-color: #323232;"> <div slot="poster" style="display:flex; justify-content:center; align-items:center; height:100%;">Caricamento 3D...</div> </model-viewer> </div>
                 <button class="prev" onclick="plusSlides(-1, 'carousel-dumbe')">&#10094;</button>
                 <button class="next" onclick="plusSlides(1, 'carousel-dumbe')">&#10095;</button>
             </div>
@@ -388,6 +402,7 @@
                     <p data-lang="design_dumbe_1"><strong>Struttura:</strong> 100% CAD Custom.</p>
                     <p data-lang="design_dumbe_2"><strong>Modularità:</strong> Giunti intercambiabili.</p>
                     <p data-lang="design_dumbe_3"><strong>End Effector:</strong> Tripla pinza.</p>
+                    
                 </div>
                 <div class="tech-block" style="grid-column: 1 / -1;">
                     <h3><i class="fas fa-hard-hat"></i> <span data-lang="wip_status">WIP Status</span></h3>
@@ -423,7 +438,7 @@
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/ILTUONOME" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 <a href="https://instagram.com/pay.paaul" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://github.com/ILTUONOME" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://github.com/paypaaul" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
                 <a href="mailto:paolo.vezzini1@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
@@ -431,7 +446,7 @@
 
     <footer>
         <p style="text-align: center; padding: 20px; font-size: 0.8rem;">
-            &copy; 2025 Portfolio Ingegneristico.
+            &copy; 2025 Portfolio Ingegneristico di Paolo Vezzini.
         </p>
     </footer>
 
@@ -463,7 +478,7 @@
         // --- 2. GESTIONE LINGUE ---
         let currentLang = localStorage.getItem('lang') || 'it';
 
-        const translations = {
+       const translations = {
             it: {
                 hero_title: 'Ciao, sono <span class="highlight">Paul</span>',
                 hero_subtitle: 'Sono un ingegnere a cui piace <span class="highlight">costruire cose</span>.',
@@ -475,22 +490,29 @@
                 specs: 'Specifiche',
                 dimensions: 'Dimensioni:',
                 weight: 'Peso:',
-                payload: 'Carico:',
+                payload: 'Carico Max:',
                 improvements: 'Miglioramenti',
                 wip_status: 'Stato Lavori (WIP)',
                 donate_title: 'Sostieni i miei progetti',
-                donate_text: 'Costruire robot e prototipi ha dei costi vivi.<br>Se ti piace quello che faccio, una donazione mi aiuta molto!<br><br><strong>🎁 Rewards:</strong> Per donazioni sopra i <strong>15€</strong>, riceverai un portachiavi in legno personalizzato.',
+                donate_text: 'Costruire robot e prototipi ha dei costi vivi.<br>Se ti piace quello che faccio, una donazione mi aiuta molto!<br><br><strong>🎁 Rewards:</strong> Per donazioni sopra i <strong>15€</strong>, riceverai un portachiavi in legno personalizzato inciso a laser.',
                 btn_donate: 'Dona con PayPal',
                 donate_info: '(Per info dopo la donazione contattami)',
                 contact_title: 'Parliamone!',
                 contact_text: 'Sono entusiasta di ricevere consigli o critiche costruttive.<br>Sono qui per imparare e migliorare.',
+                
+                // Descrizioni Brevi
                 desc_exabot_short: 'Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante focalizzato sulla meccanica e cinematica inversa.',
                 desc_dumbe_short: 'Braccio robotico antropomorfo a 6 gradi di libertà (6-DOF) interamente progettato in CAD. Design modulare con riduttori cicloidali.',
-                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motori:</strong> 18x MG996R</li><li><strong>Power:</strong> LiPo 2S + Buck 15A</li>`,
-                wip_exabot: `<li>Integrazione <strong>SSC32-V2.5</strong> per jitter.</li><li>Irrobustimento alimentazione.</li><li><strong>V2:</strong> Telaio custom.</li>`,
-                bom_dumbe: `<li><strong>Motori:</strong> Nema 17 (1.7A)</li><li><strong>Riduttori:</strong> Cicloidali 20:1</li><li><strong>Driver:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>`,
-                wip_dumbe_list: `<li>Stampa riduttori e test.</li><li>Cablaggio TMC2209.</li><li>Cinematica inversa su ESP32.</li>`,
-                design_dumbe_1: '<strong>Struttura:</strong> 100% CAD Custom.',
+
+                // LISTE (BOM & WIP)
+                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motori:</strong> 18x MG996R</li><li><strong>Alimentazione:</strong> LiPo 2S (7.4V) + Buck 15A</li>`,
+                wip_exabot: `<li>Integrazione <strong>SSC32-V2.5</strong> per jitter.</li><li>Irrobustimento alimentazione.</li><li>Valutazione integrazione di sensori vari.</li><li><strong>V2:</strong> Telaio custom in via di sviluppo.</li>`,
+                
+                bom_dumbe: `<li><strong>Motori:</strong> Nema 17 (1.7A)</li><li><strong>Riduttori:</strong> Cicloidali 20:1</li><li><strong>Driver:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>
+                            <li><strong>Alimentazione:</strong> 24V 15A + 5V 5A Convertitore Buck</li><li><strong>Sensori:</strong> GY-521/GY-6500 per bilanciamento, Hall Effect per homing</li>`,
+                wip_dumbe_list: `<li>Stampa struttura e test.</li><li>Cablaggio Alimentazione e TMC2209.</li><li>Sviluppo firmware.</li>`,
+
+                design_dumbe_1: '<strong>Struttura:</strong> CAD Custom.',
                 design_dumbe_2: '<strong>Modularità:</strong> Giunti intercambiabili.',
                 design_dumbe_3: '<strong>End Effector:</strong> Tripla pinza.'
             },
@@ -509,18 +531,23 @@
                 improvements: 'Improvements',
                 wip_status: 'WIP Status',
                 donate_title: 'Support my projects',
-                donate_text: 'Building robots involves costs.<br>If you like what I do, a donation helps a lot!<br><br><strong>🎁 Rewards:</strong> For donations over <strong>15€</strong>, you get a custom wooden keychain.',
+                donate_text: 'Building robots involves costs.<br>If you like what I do, a donation helps a lot!<br><br><strong>🎁 Rewards:</strong> For donations over <strong>15€</strong>, you get a custom wooden keychain engraved with laser.',
                 btn_donate: 'Donate with PayPal',
                 donate_info: '(Contact me after donation for info)',
                 contact_title: 'Let\'s Talk!',
                 contact_text: 'I am super excited to receive advice, ideas, or constructive criticism.<br>I am here to learn and improve.',
+
                 desc_exabot_short: 'A 3D printed hexapod robot controlled via ESP32. Working prototype focused on mechanics and inverse kinematics.',
                 desc_dumbe_short: 'Anthropomorphic 6-DOF robotic arm fully designed in CAD. Modular design with cycloidal drives.',
-                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motors:</strong> 18x MG996R</li><li><strong>Power:</strong> LiPo 2S + Buck 15A</li>`,
-                wip_exabot: `<li>Integration of <strong>SSC32-V2.5</strong> (jitter fix).</li><li>Power wiring upgrade.</li><li><strong>V2:</strong> Custom Frame.</li>`,
-                bom_dumbe: `<li><strong>Motors:</strong> Nema 17 (1.7A)</li><li><strong>Gears:</strong> Cycloidal 20:1</li><li><strong>Drivers:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>`,
-                wip_dumbe_list: `<li>Gear printing & testing.</li><li>TMC2209 Wiring.</li><li>Inverse Kinematics on ESP32.</li>`,
-                design_dumbe_1: '<strong>Structure:</strong> 100% Custom CAD.',
+
+                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motors:</strong> 18x MG996R</li><li><strong>Power Supply:</strong> LiPo 2S (7.4V) + Buck Converter 15A</li>`,
+                wip_exabot: `<li>Integration of <strong>SSC32-V2.5</strong> (jitter fix).</li><li>Power wiring upgrade.</li><li>Assessment of integration of multiple sensors.</li><li><strong>V2:</strong> Custom Frame under development.</li>`,
+
+                bom_dumbe: `<li><strong>Motors:</strong> Nema 17 (1.7A)</li><li><strong>Gears:</strong> Cycloidal 20:1</li><li><strong>Drivers:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>
+                            <li><strong>Power Supply:</strong> 24V 15A + 5V 5A Buck Converter</li><li><strong>Sensors:</strong> GY-521/GY-6500 for balancing, Hall Effect for homing</li>`,
+                wip_dumbe_list: `<li>Structure printing & testing.</li><li>TMC2209 and Power Wiring.</li><li>Firmware development.</li>`,
+
+                design_dumbe_1: '<strong>Structure:</strong> Custom CAD.',
                 design_dumbe_2: '<strong>Modularity:</strong> Interchangeable joints.',
                 design_dumbe_3: '<strong>End Effector:</strong> Triple Gripper.'
             }
