@@ -276,6 +276,37 @@
             font-size: 2.5rem; transition: color 0.3s, transform 0.3s;
         }
         .social-links a:hover { color: var(--primary); transform: scale(1.2); }
+        /* --- FORM CONTATTI --- */
+        .contact-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-color: rgba(255, 255, 255, 0.1); /* Sfondo semitrasparente */
+            color: var(--contact-text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        /* Focus: quando clicchi nel campo */
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        /* Colore del placeholder (il testo suggerito) */
+        ::placeholder { color: rgba(255, 255, 255, 0.6); }
 
         footer {
             background-color: var(--footer-bg);
@@ -470,18 +501,36 @@
                 Sono entusiasta di ricevere consigli o critiche costruttive.<br>
                 Sono qui per imparare e migliorare.
             </p>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/paolo-vezzini-61997720a" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+
+            <form name="contact" method="POST" data-netlify="true" class="contact-form">
+                <input type="hidden" name="form-name" value="contact">
+                
+                <div class="input-group">
+                    <input type="text" name="name" required data-lang-placeholder="form_name_ph" placeholder="Il tuo nome">
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" required data-lang-placeholder="form_email_ph" placeholder="La tua email">
+                </div>
+                <div class="input-group">
+                    <textarea name="message" rows="5" required data-lang-placeholder="form_msg_ph" placeholder="Il tuo messaggio..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn" style="width:100%; margin-top:10px;" data-lang="form_btn">Invia Messaggio</button>
+            </form>
+
+            <div class="social-links" style="margin-top: 50px;">
+                <a href="https://www.linkedin.com/in/ILTUONOME" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 <a href="https://instagram.com/pay.paaul" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://github.com/paypaaul" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
                 <a href="mailto:paolo.vezzini1@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
+        </div>
     </section>
 
     <footer>
         <p style="text-align: center; padding: 20px; font-size: 0.8rem;">
-            &copy; 2025 Portfolio Ingegneristico di Paolo Vezzini.
+            &copy; 2025 Portfolio di Paolo Vezzini.
         </p>
     </footer>
 
@@ -542,7 +591,12 @@
                 wip_dumbe_list: `<li>Stampa struttura e test.</li><li>Cablaggio Alimentazione e TMC2209.</li><li>Sviluppo firmware.</li>`,
                 design_dumbe_1: '<strong>Struttura:</strong> Custom stampata in 3D (PLA).',
                 design_dumbe_2: '<strong>Modularità:</strong> Giunti intercambiabili.',
-                design_dumbe_3: '<strong>End Effector:</strong> Tripla pinza.'
+                design_dumbe_3: '<strong>End Effector:</strong> Tripla pinza.',
+                contact_text: 'Scrivimi per collaborazioni, domande o anche solo per un saluto!', 
+                form_name_ph: 'Il tuo nome',
+                form_email_ph: 'La tua email',
+                form_msg_ph: 'Il tuo messaggio...',
+                form_btn: 'Invia Messaggio'
             },
             en: {
                 hero_title: 'Hi, I am <span class="highlight">Paul</span>',
@@ -575,7 +629,12 @@
                 wip_dumbe_list: `<li>Structure printing & testing.</li><li>TMC2209 and Power Wiring.</li><li>Firmware development.</li>`,
                 design_dumbe_1: '<strong>Structure:</strong> Custom 3D printed (PLA).',
                 design_dumbe_2: '<strong>Modularity:</strong> Interchangeable joints.',
-                design_dumbe_3: '<strong>End Effector:</strong> Triple Gripper.'
+                design_dumbe_3: '<strong>End Effector:</strong> Triple Gripper.',
+                contact_text: 'Write me for collaborations, questions or just to say hi!',
+                form_name_ph: 'Your Name',
+                form_email_ph: 'Your Email',
+                form_msg_ph: 'Your Message...',
+                form_btn: 'Send Message'
             }
         };
         
@@ -647,10 +706,10 @@
         }
 
         function updatePageText() {
-            // 1. Aggiorna l'etichetta della lingua (IT/EN)
+            // 1. Etichetta Lingua
             document.getElementById('lang-label').innerText = currentLang.toUpperCase();
             
-            // 2. Aggiorna tutti i testi tradotti
+            // 2. Testi normali (innerHTML)
             document.querySelectorAll('[data-lang]').forEach(element => {
                 const key = element.getAttribute('data-lang');
                 if (translations[currentLang][key]) {
@@ -658,11 +717,17 @@
                 }
             });
 
-            // 3. AGGIORNAMENTO DINAMICO DEL LINK AL CV
+            // 3. Placeholder dei Form (NUOVO)
+            document.querySelectorAll('[data-lang-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-lang-placeholder');
+                if (translations[currentLang][key]) {
+                    element.placeholder = translations[currentLang][key];
+                }
+            });
+
+            // 4. Link CV
             const cvLink = document.getElementById('cv-link');
             if (cvLink) {
-                // Se la lingua è 'it' -> data/cv_it.pdf
-                // Se la lingua è 'en' -> data/cv_en.pdf
                 cvLink.href = `data/cv_${currentLang}.pdf`;
             }
         }
