@@ -322,6 +322,12 @@
                  <span id="static-text">Sono un ingegnere a cui piace </span>
                  <span class="highlight" id="typewriter"></span><span class="cursor">&nbsp;</span>
             </p>
+            <div style="margin-top: 40px;" data-aos="fade-up" data-aos-delay="200">
+            <a id="cv-link" href="data/cv_it.pdf" target="_blank" class="btn" style="display: inline-flex; align-items: center; gap: 10px; font-size: 1.2rem; padding: 15px 35px;">
+                <i class="fas fa-file-download"></i> 
+                <span data-lang="btn_cv">Scarica CV</span>
+            </a>
+        </div>
         </div>
         <div class="scroll-down" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
             <i class="fas fa-chevron-down"></i>
@@ -508,6 +514,7 @@
             it: {
                 hero_title: 'Ciao, sono <span class="highlight">Paul</span>',
                 hero_subtitle: 'Sono un ingegnere a cui piace <span class="highlight">costruire cose</span>.',
+                btn_cv: 'Scarica CV',
                 tech_stack: 'TECH STACK',
                 skill_3d: 'Stampa 3D',
                 projects_title: 'I Miei Progetti',
@@ -540,6 +547,7 @@
             en: {
                 hero_title: 'Hi, I am <span class="highlight">Paul</span>',
                 hero_subtitle: 'I am an engineer who loves <span class="highlight">building things</span>.',
+                btn_cv: 'Download CV',
                 tech_stack: 'TECH STACK',
                 skill_3d: '3D Printing',
                 projects_title: 'My Projects',
@@ -639,13 +647,24 @@
         }
 
         function updatePageText() {
+            // 1. Aggiorna l'etichetta della lingua (IT/EN)
             document.getElementById('lang-label').innerText = currentLang.toUpperCase();
+            
+            // 2. Aggiorna tutti i testi tradotti
             document.querySelectorAll('[data-lang]').forEach(element => {
                 const key = element.getAttribute('data-lang');
                 if (translations[currentLang][key]) {
                     element.innerHTML = translations[currentLang][key];
                 }
             });
+
+            // 3. AGGIORNAMENTO DINAMICO DEL LINK AL CV
+            const cvLink = document.getElementById('cv-link');
+            if (cvLink) {
+                // Se la lingua è 'it' -> data/cv_it.pdf
+                // Se la lingua è 'en' -> data/cv_en.pdf
+                cvLink.href = `data/cv_${currentLang}.pdf`;
+            }
         }
         updatePageText();
 
