@@ -1,0 +1,58 @@
+@layer utilities {
+  /* Visible only to assistive technologies. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 3000;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--btn-bg);
+    color: #fff;
+    font-weight: bold;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .highlight {
+    color: var(--primary);
+    font-weight: bold;
+  }
+
+  /* Reveal-on-scroll (see src/features/reveal.js). Content stays visible without JavaScript. */
+  .js [data-reveal] {
+    opacity: 0;
+    transition:
+      opacity 1s ease,
+      transform 1s ease;
+  }
+
+  .js [data-reveal='up'] {
+    transform: translateY(40px);
+  }
+
+  .js [data-reveal='down'] {
+    transform: translateY(-40px);
+  }
+
+  .js [data-reveal='zoom'] {
+    transform: scale(0.9);
+  }
+
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}

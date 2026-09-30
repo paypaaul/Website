@@ -1,0 +1,21 @@
+# Netlify deployment configuration.
+# Security & cache headers live in public/_headers (single source of truth, also used by
+# `vite preview` so the e2e tests run against the production CSP).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# The CVs used to live in /data - keep old links (LinkedIn, e-mails, ...) working.
+[[redirects]]
+  from = "/data/cv_it.pdf"
+  to = "/docs/cv_it.pdf"
+  status = 301
+
+[[redirects]]
+  from = "/data/cv_en.pdf"
+  to = "/docs/cv_en.pdf"
+  status = 301

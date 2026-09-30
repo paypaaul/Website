@@ -1,0 +1,71 @@
+@layer components {
+  /*
+   * A native <dialog> stretched over the viewport: the dialog itself is the scrollable overlay and
+   * .modal__content is the card. Clicking the overlay (outside the card) closes it, see modals.js.
+   */
+  .modal {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    background-color: var(--modal-overlay);
+    color: var(--text-color);
+    backdrop-filter: blur(5px);
+  }
+
+  .modal__content {
+    position: relative;
+    width: 95%;
+    max-width: 1100px;
+    margin: 3% auto;
+    padding: 40px;
+    border-top: 6px solid var(--primary);
+    border-radius: var(--radius-md);
+    background-color: var(--card-bg);
+    box-shadow: 0 0 50px rgb(0 0 0 / 50%);
+    transition: background var(--transition-theme);
+  }
+
+  .modal__close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 1.6rem;
+    cursor: pointer;
+  }
+
+  .modal__close:hover {
+    color: var(--primary-text);
+  }
+
+  .modal__title {
+    margin-bottom: 10px;
+    padding-right: 40px;
+    color: var(--accent);
+  }
+
+  .modal__meta {
+    margin-bottom: 20px;
+  }
+
+  @media (width <= 768px) {
+    .modal__content {
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+  }
+}
