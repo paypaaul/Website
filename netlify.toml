@@ -1,6 +1,6 @@
 # Netlify deployment configuration.
-# Security & cache headers live in public/_headers (single source of truth, also used by
-# `vite preview` so the e2e tests run against the production CSP).
+# Security & cache headers live in public/_headers (single source of truth, also applied by
+# scripts/serve.mjs - `npm run preview` - so the e2e tests run against the production CSP).
 
 [build]
   command = "npm run build"

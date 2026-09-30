@@ -17,3 +17,6 @@ test-results/
 .env
 .env.*
 old_files/
+
+# Astro
+.astro/

@@ -1,0 +1,46 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import type { IconName } from '@/components/ui/icon-names';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { getDictionary, getLang } from '@/i18n';
+
+const t = getDictionary(getLang(Astro));
+const s = t.skills;
+
+const areas: { icon: IconName; title: string; text: string; tags: readonly string[] }[] = [
+  { icon: 'ruler', ...s.mechanics },
+  { icon: 'cpu', ...s.electronics },
+  { icon: 'terminal', ...s.firmware },
+];
+---
+
+<section id="skills" aria-labelledby="skills-title" class="container-x py-16 sm:py-24">
+  <SectionHeading
+    id="skills-title"
+    index="02"
+    eyebrow={s.eyebrow}
+    title={s.title}
+    description={s.description}
+  />
+  <div class="mt-14 grid gap-6 md:grid-cols-3">
+    {areas.map((area, index) => (
+      <article
+        class="card relative overflow-hidden p-7"
+        data-spotlight
+        data-reveal
+        data-reveal-delay={index * 100}
+      >
+        <div class="grid size-11 place-items-center rounded-xl border border-border bg-muted text-xl text-accent-text">
+          <Icon name={area.icon} />
+        </div>
+        <h3 class="mt-6 text-xl font-semibold tracking-tight">{area.title}</h3>
+        <p class="mt-2 text-muted-foreground">{area.text}</p>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {area.tags.map((tag) => (
+            <li class="chip">{tag}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+</section>

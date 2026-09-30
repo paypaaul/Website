@@ -1,0 +1,27 @@
+---
+import spriteUrl from '@/assets/icons.svg?url';
+import type { IconName } from './icon-names';
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+// Brand logos are filled shapes, Lucide icons are 2px line drawings.
+const isBrand = name.startsWith('brand-');
+---
+
+<svg
+  class:list={[
+    'size-[1em] shrink-0',
+    isBrand ? 'fill-current' : 'fill-none stroke-current stroke-2',
+    className,
+  ]}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  <use href={`${spriteUrl}#${name}`}></use>
+</svg>

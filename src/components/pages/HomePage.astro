@@ -1,0 +1,21 @@
+---
+import Contact from '@/components/sections/Contact.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Projects from '@/components/sections/Projects.astro';
+import Skills from '@/components/sections/Skills.astro';
+import Support from '@/components/sections/Support.astro';
+import TechMarquee from '@/components/sections/TechMarquee.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { homeAlternates } from '@/i18n';
+---
+
+<BaseLayout alternates={homeAlternates()} structuredData>
+  <main id="main">
+    <Hero />
+    <TechMarquee />
+    <Projects />
+    <Skills />
+    <Support />
+    <Contact />
+  </main>
+</BaseLayout>

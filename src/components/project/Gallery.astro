@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '@/components/ui/Icon.astro';
+import type { Project } from '@/data/projects';
+import { getDictionary, type Lang } from '@/i18n';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+}
+
+const { project, lang } = Astro.props;
+const t = getDictionary(lang);
+const { media } = project;
+---
+
+<section
+  data-gallery
+  aria-roledescription="carousel"
+  aria-label={`${t.project.gallery} ${project.name}`}
+>
+  <div class="gallery__viewport" data-gallery-viewport>
+    {media.map((item, index) => (
+      <div
+        class="gallery__slide"
+        data-gallery-slide
+        data-lazy-module={item.type === 'model' ? 'model-viewer' : undefined}
+        hidden={index !== 0}
+      >
+        {item.type === 'image' && (
+          <>
+            {/* Blurred copy of the image fills the letterbox, so wide/portrait shots never leave black bars. */}
+            <Image
+              src={item.src}
+              alt=""
+              aria-hidden="true"
+              widths={[240]}
+              sizes="240px"
+              class="gallery__backdrop"
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+            <Image
+              src={item.src}
+              alt={item.alt[lang]}
+              widths={[640, 960, 1280, 1600]}
+              sizes="(min-width: 1152px) 1104px, calc(100vw - 3rem)"
+              class="gallery__image"
+              loading={index === 0 ? 'eager' : 'lazy'}
+              fetchpriority={index === 0 ? 'high' : undefined}
+              decoding="async"
+            />
+          </>
+        )}
+        {item.type === 'video' && (
+          <iframe
+            data-src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}`}
+            title={item.title[lang]}
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            referrerpolicy="strict-origin-when-cross-origin"
+          />
+        )}
+        {item.type === 'model' && (
+          <model-viewer
+            data-model={item.file}
+            alt={item.alt[lang]}
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+          >
+            <div slot="poster" class="gallery__loading">
+              {t.a11y.loading3d}
+            </div>
+          </model-viewer>
+        )}
+      </div>
+    ))}
+    <p class="gallery__counter" data-gallery-counter aria-live="polite">
+      1 / {media.length}
+    </p>
+    <button
+      type="button"
+      class="gallery__nav gallery__nav--prev"
+      data-gallery-prev
+      aria-label={t.project.prev}
+    >
+      <Icon name="chevron-left" class="text-xl" />
+    </button>
+    <button
+      type="button"
+      class="gallery__nav gallery__nav--next"
+      data-gallery-next
+      aria-label={t.project.next}
+    >
+      <Icon name="chevron-right" class="text-xl" />
+    </button>
+  </div>
+
+  <ul class="no-scrollbar mt-3 flex gap-2 overflow-x-auto p-1">
+    {media.map((item, index) => (
+      <li class="flex-none">
+        <button
+          type="button"
+          class="gallery__thumb"
+          data-gallery-thumb
+          aria-label={`${t.project.goTo} ${index + 1}`}
+          aria-current={index === 0 ? 'true' : undefined}
+        >
+          {item.type === 'image' && (
+            <Image src={item.src} alt="" width={208} height={156} loading="lazy" decoding="async" />
+          )}
+          {item.type === 'video' && <Icon name="play" class="text-xl" />}
+          {item.type === 'model' && <Icon name="rotate3d" class="text-xl" />}
+        </button>
+      </li>
+    ))}
+  </ul>
+</section>

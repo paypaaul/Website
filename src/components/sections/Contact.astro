@@ -1,0 +1,154 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import type { IconName } from '@/components/ui/icon-names';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { site } from '@/data/site';
+import { getDictionary, getLang, thanksPath } from '@/i18n';
+
+const lang = getLang(Astro);
+const t = getDictionary(lang);
+const f = t.contact.form;
+
+const channels: {
+  icon: IconName;
+  label: string;
+  handle: string;
+  href: string;
+  external: boolean;
+}[] = [
+  {
+    icon: 'mail',
+    label: 'Email',
+    handle: site.email,
+    href: `mailto:${site.email}`,
+    external: false,
+  },
+  {
+    icon: 'brand-github',
+    label: 'GitHub',
+    handle: `@${site.github.handle}`,
+    href: site.github.url,
+    external: true,
+  },
+  {
+    icon: 'brand-instagram',
+    label: 'Instagram',
+    handle: `@${site.instagram.handle}`,
+    href: site.instagram.url,
+    external: true,
+  },
+];
+---
+
+<section id="contact" aria-labelledby="contact-title" class="container-x py-24 sm:py-32">
+  <div class="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+    <div>
+      <SectionHeading
+        id="contact-title"
+        index="03"
+        eyebrow={t.contact.eyebrow}
+        title={t.contact.title}
+        description={t.contact.text}
+      />
+
+      <div class="mt-12" data-reveal data-reveal-delay="120">
+        <p class="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+          {t.contact.channels}
+        </p>
+        <ul class="mt-4 space-y-3">
+          {channels.map((channel) => (
+            <li>
+              <a
+                class="group card flex items-center gap-4 p-4 transition-colors hover:border-border-strong"
+                href={channel.href}
+                target={channel.external ? '_blank' : undefined}
+                rel={channel.external ? 'noopener noreferrer' : undefined}
+              >
+                <span class="grid size-10 place-items-center rounded-xl border border-border bg-muted text-lg">
+                  <Icon name={channel.icon} />
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-sm font-medium">{channel.label}</span>
+                  <span class="block truncate text-sm text-muted-foreground">{channel.handle}</span>
+                </span>
+                <Icon
+                  name="arrow-up-right"
+                  class="ml-auto text-lg text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <form
+      class="card space-y-5 p-6 sm:p-8"
+      name="contact"
+      method="POST"
+      action={thanksPath(lang)}
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      data-reveal
+      data-reveal-delay="160"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <p hidden>
+        <label>
+          {f.honeypot} <input type="text" name="bot-field" />
+        </label>
+      </p>
+
+      <div>
+        <label class="field-label" for="contact-name">
+          {f.name}
+        </label>
+        <input
+          class="field-input"
+          id="contact-name"
+          type="text"
+          name="name"
+          autocomplete="name"
+          maxlength="100"
+          required
+          placeholder={f.namePlaceholder}
+        />
+      </div>
+      <div>
+        <label class="field-label" for="contact-email">
+          {f.email}
+        </label>
+        <input
+          class="field-input"
+          id="contact-email"
+          type="email"
+          name="email"
+          autocomplete="email"
+          maxlength="254"
+          required
+          placeholder={f.emailPlaceholder}
+        />
+      </div>
+      <div>
+        <label class="field-label" for="contact-message">
+          {f.message}
+        </label>
+        <textarea
+          class="field-input"
+          id="contact-message"
+          name="message"
+          rows="6"
+          maxlength="5000"
+          required
+          placeholder={f.messagePlaceholder}
+        ></textarea>
+      </div>
+
+      <Button type="submit" size="lg" block>
+        {f.submit}
+        <Icon name="send" class="icon-shift" />
+      </Button>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getDictionary, getLang, homePath, thanksAlternates } from '@/i18n';
+
+const lang = getLang(Astro);
+const t = getDictionary(lang);
+---
+
+<BaseLayout title={t.meta.thanksTitle} alternates={thanksAlternates()} noindex>
+  <main id="main" class="relative isolate overflow-hidden">
+    <div class="bg-grid absolute inset-0 -z-10" aria-hidden="true"></div>
+    <div class="hero-glow -z-10" aria-hidden="true"></div>
+    <div class="container-x flex min-h-[100dvh] flex-col items-center justify-center py-32 text-center">
+      <div class="hero-in grid size-16 place-items-center rounded-full border border-border bg-card text-3xl text-accent-text shadow-float">
+        <Icon name="check" />
+      </div>
+      <h1 class="hero-in mt-8 [--d:80ms] text-4xl font-semibold tracking-tighter sm:text-6xl">
+        {t.thanks.title}
+      </h1>
+      <p class="hero-in mt-5 max-w-md [--d:160ms] text-lg text-muted-foreground">{t.thanks.text}</p>
+      <div class="hero-in mt-10 [--d:240ms]">
+        <Button href={homePath(lang)} variant="secondary" size="lg">
+          <Icon name="arrow-left" />
+          {t.thanks.back}
+        </Button>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,15 +1,26 @@
+# Dependabot opens pull requests for outdated dependencies.
+#
+# Kept deliberately quiet: at most one grouped PR per ecosystem per month, aimed at `dev` (the
+# integration branch) and never straight at production (`main`). Major versions are not grouped: they
+# arrive as their own PR so that a breaking change is never hidden inside a batch of small updates.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
+    target-branch: dev
     schedule:
-      interval: weekly
+      interval: monthly
     groups:
-      dev-tooling:
-        dependency-type: development
-    open-pull-requests-limit: 5
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 3
 
   - package-ecosystem: github-actions
     directory: /
+    target-branch: dev
     schedule:
       interval: monthly
+    groups:
+      github-actions:
+        patterns: ['*']
+    open-pull-requests-limit: 1

@@ -2,7 +2,9 @@ dist/
 node_modules/
 package-lock.json
 public/vendor/
-public/icons.svg
+src/assets/icons.svg
+src/components/ui/icon-names.ts
+.astro/
 public/_headers
 playwright-report/
 test-results/

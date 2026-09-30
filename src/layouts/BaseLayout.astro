@@ -1,0 +1,100 @@
+---
+import geistFont from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import Footer from '@/components/layout/Footer.astro';
+import Navbar from '@/components/layout/Navbar.astro';
+import { site } from '@/data/site';
+import { getDictionary, getLang, homePath, otherLang, type Alternates } from '@/i18n';
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** This page in every language (hreflang links and the language switcher). */
+  alternates: Alternates;
+  noindex?: boolean;
+  /** Emit Person structured data (home page only). */
+  structuredData?: boolean;
+}
+
+const { title, description, alternates, noindex = false, structuredData = false } = Astro.props;
+
+const lang = getLang(Astro);
+const other = otherLang(lang);
+const t = getDictionary(lang);
+
+const pageTitle = title ?? t.meta.title;
+const pageDescription = description ?? t.meta.description;
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const canonical = absolute(alternates[lang]);
+const ogImage = absolute('/og.jpg');
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.fullName,
+  alternateName: site.name,
+  url: absolute(homePath('it')),
+  jobTitle: 'Engineer',
+  sameAs: [site.github.url, site.instagram.url],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={other} href={absolute(alternates[other])} />
+    <link rel="alternate" hreflang="x-default" href={absolute(alternates.it)} />
+
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={t.meta.locale} />
+    <meta property="og:locale:alternate" content={getDictionary(other).meta.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href={geistFont} as="font" type="font/woff2" crossorigin />
+    <!-- Applies the saved/system theme before first paint (no flash of the wrong theme). -->
+    <script is:inline src="/theme-init.js"></script>
+    {structuredData && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />
+    )}
+    {import.meta.env.PROD && (
+      <script
+        is:inline
+        defer
+        src="https://cdn.counter.dev/script.js"
+        data-id="5ed89175-605c-44e6-be72-3900a823671e"
+        data-utcoffset="1"
+      />
+    )}
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+    >
+      {t.a11y.skipToContent}
+    </a>
+    <Navbar alternates={alternates} />
+    <slot />
+    <Footer />
+    <script>
+      import '@/scripts/main';
+    </script>
+  </body>
+</html>

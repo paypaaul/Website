@@ -8,8 +8,8 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000
 
-# Vite emits content-hashed files in /assets: cache them forever.
-/assets/*
+# Astro emits content-hashed files in /_astro: cache them forever.
+/_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
 /vendor/*

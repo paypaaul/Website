@@ -1,0 +1,24 @@
+---
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { projects } from '@/data/projects';
+import { getDictionary, getLang } from '@/i18n';
+import ProjectCard from './ProjectCard.astro';
+
+const lang = getLang(Astro);
+const t = getDictionary(lang);
+---
+
+<section id="projects" aria-labelledby="projects-title" class="container-x py-24 sm:py-32">
+  <SectionHeading
+    id="projects-title"
+    index="01"
+    eyebrow={t.projects.eyebrow}
+    title={t.projects.title}
+    description={t.projects.description}
+  />
+  <div class="mt-14 grid gap-6 lg:grid-cols-2">
+    {projects.map((project, index) => (
+      <ProjectCard project={project} lang={lang} delay={index * 120} />
+    ))}
+  </div>
+</section>
