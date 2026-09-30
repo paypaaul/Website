@@ -14,6 +14,24 @@ progetto interattive (gallerie, video, modello 3D). Deploy su Netlify.
 | Qualità       | ESLint, Stylelint, html-validate, Prettier, GitHub Actions                  |
 | Hosting/Forms | Netlify (header di sicurezza, redirect, Netlify Forms)                      |
 
+## Flusso di lavoro (branch)
+
+| Branch | Ruolo                                                                               |
+| ------ | ----------------------------------------------------------------------------------- |
+| `main` | **Produzione.** Ogni push pubblica il sito su Netlify. Si aggiorna solo tramite PR. |
+| `dev`  | **Sviluppo.** Branch di integrazione: qui si lavora e si accumulano le modifiche.   |
+
+```
+feature/xyz ──PR──▶ dev ──PR (release)──▶ main ──▶ Netlify (produzione)
+```
+
+- Per modifiche piccole si può lavorare direttamente su `dev`; per quelle più grandi si crea un
+  branch `feature/...` da `dev` e si apre una PR verso `dev`.
+- Per pubblicare si apre una PR `dev` → `main`: la CI (lint, test unitari, build, e2e) e il
+  **deploy preview** di Netlify permettono di controllare il risultato prima del merge.
+- Il merge in `main` si fa con un _merge commit_ (non squash), così `dev` e `main` non divergono.
+- La CI gira a ogni push su `main` e `dev` e su ogni PR.
+
 ## Avvio rapido
 
 Richiede Node.js >= 20 (vedi `.nvmrc`).
