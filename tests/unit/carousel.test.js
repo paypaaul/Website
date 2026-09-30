@@ -5,9 +5,9 @@ function render() {
   document.body.innerHTML = `
     <div data-carousel>
       <div data-carousel-viewport>
-        <div data-carousel-slide><img alt="" /></div>
+        <div data-carousel-slide><img alt="" loading="lazy" /></div>
         <div data-carousel-slide hidden><iframe data-src="https://example.test/video"></iframe></div>
-        <div data-carousel-slide hidden><span>3</span></div>
+        <div data-carousel-slide hidden><img id="third" alt="" loading="lazy" /></div>
       </div>
       <p data-carousel-counter></p>
       <button data-carousel-prev></button>
@@ -88,6 +88,15 @@ describe('Carousel', () => {
     carousel.activate(); // reopening resumes on the same slide
     expect(carousel.index).toBe(1);
     expect(frame().getAttribute('src')).toBe('https://example.test/video');
+  });
+
+  it('preloads the images of the neighbouring slides once active, not before', () => {
+    const third = document.getElementById('third');
+    const carousel = new Carousel(root);
+    expect(third.getAttribute('loading')).toBe('lazy');
+
+    carousel.activate(); // on slide 1: the previous slide (3, wrapping around) is prefetched
+    expect(third.getAttribute('loading')).toBe('eager');
   });
 
   it('calls onChange only while active', () => {

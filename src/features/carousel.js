@@ -2,6 +2,16 @@ const BLANK = 'about:blank';
 
 const isInteractive = (target) => Boolean(target.closest?.('model-viewer, iframe, a, button'));
 
+/**
+ * Images of hidden slides are `loading="lazy"` and would only start downloading once shown, which
+ * flashes an empty slide. Switching them to eager makes the browser fetch them right away.
+ */
+function preloadImages(slide) {
+  for (const image of slide.querySelectorAll('img[loading="lazy"]')) {
+    image.setAttribute('loading', 'eager');
+  }
+}
+
 /** Loads lazy media (YouTube iframes) of a slide: `src` is only set once the slide is shown. */
 function startMedia(slide) {
   for (const frame of slide.querySelectorAll('iframe[data-src]')) {
@@ -105,6 +115,8 @@ export class Carousel {
 
     if (this.#active) {
       startMedia(slide);
+      preloadImages(this.#slides[(this.#index + 1) % this.length]);
+      preloadImages(this.#slides[(this.#index - 1 + this.length) % this.length]);
       this.#onChange?.({ index: this.#index, slide });
     }
   }
