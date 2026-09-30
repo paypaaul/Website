@@ -1,752 +1,752 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paul | Portfolio Engineering</title>
-    
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="meta_title">Paul | Portfolio Engineering</title>
+    <meta
+      name="description"
+      content="Portfolio di Paul, ingegnere appassionato di robotica: braccio robotico 6-DOF, robot esapode, stampa 3D, elettronica ed embedded."
+      data-i18n-attr="content:meta_description"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#c74f00" />
 
-    <style>
-        /* --- GESTIONE TEMI AVANZATA --- */
-        :root {
-            /* --- LIGHT MODE --- */
-            --primary: #FF6700;
-            --bg-color: #EBEBEB;
-            --card-bg: #ffffff;
-            --text-color: #404040;
-            --text-secondary: #666666;
-            --accent: #3A6EA5;
-            --shadow: rgba(0,0,0,0.1);
-            --modal-overlay: rgba(0,0,0,0.9);
-            
-            --contact-bg: #2c2c2c;
-            --contact-text: #f0f0f0;
-            --footer-bg: #111111;
-            
-            --icon-github: #171515;
-            --icon-print: #333333;
-            --icon-brightness: 100%;
-        }
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Paul | Portfolio Engineering"
+      data-i18n-attr="content:meta_title"
+    />
+    <meta
+      property="og:description"
+      content="Portfolio di Paul, ingegnere appassionato di robotica: braccio robotico 6-DOF, robot esapode, stampa 3D, elettronica ed embedded."
+      data-i18n-attr="content:meta_description"
+    />
+    <meta name="twitter:card" content="summary" />
 
-        /* --- DARK MODE --- */
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #f0f0f0;
-            --text-secondary: #aaaaaa;
-            --accent: #64a6ea;
-            --shadow: rgba(0,0,0,0.5);
-            --modal-overlay: rgba(0,0,0,0.95);
-            
-            --contact-bg: #000000; 
-            --contact-text: #dddddd;
-            --footer-bg: #0a0a0a;
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-            --icon-github: #ffffff;
-            --icon-print: #e0e0e0;
-            --icon-brightness: 130%;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-
-        /* --- NAVIGATORE IMPOSTAZIONI (FISSO) --- */
-        .settings-bar {
-            position: fixed; /* ORA È FISSO */
-            top: 20px;
-            right: 20px;
-            z-index: 1500; /* Sopra a tutto tranne la modale */
-            display: flex;
-            gap: 15px;
-        }
-
-        .settings-btn {
-            /* Stile solido per essere visibile su ogni sfondo */
-            background-color: var(--card-bg); 
-            color: var(--text-color);
-            border: 2px solid var(--primary); /* Bordo colorato */
-            padding: 8px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Ombra per staccarlo dallo sfondo */
-        }
-
-        .settings-btn:hover {
-            background-color: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* --- HERO SECTION --- */
-        header {
-            height: 90vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            padding: 20px; position: relative; color: #ffffff;
-            background: url('data/wallpaper1.png') no-repeat center center;
-            background-size: cover; background-attachment: fixed;
-        }
-        header::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); z-index: 1;
-        }
-        header > * { position: relative; z-index: 2; }
-
-        h1 { font-size: 4.5rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .tagline { font-size: 2rem; font-weight: 300; max-width: 800px; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
-        .highlight { color: var(--primary); font-weight: bold; }
-        
-        /* --- EFFETTO TYPEWRITER --- */
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            background-color: var(--primary);
-            animation: blink 1s infinite;
-            margin-left: 2px;
-            vertical-align: bottom; /* align cursor wrt text */
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .scroll-down {
-            margin-top: 60px; font-size: 2.5rem; color: var(--primary);
-            animation: bounce 2s infinite; cursor: pointer;
-        }
-
-        /* --- SKILLS --- */
-        .skills-section {
-            background: var(--card-bg); padding: 50px 20px; text-align: center;
-            box-shadow: 0 5px 15px var(--shadow); transition: background 0.4s ease;
-        }
-        .skills-grid { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; margin-top: 20px; }
-
-        .skill-item {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; font-size: 3.5rem;
-            color: var(--text-color); transition: transform 0.3s;
-            cursor: default; position: relative; min-width: 100px;
-        }
-        
-        .skill-item i {
-            transition: color 0.4s ease, filter 0.4s ease;
-            filter: brightness(var(--icon-brightness));
-        }
-        
-        .icon-github { color: var(--icon-github) !important; }
-        .icon-print { color: var(--icon-print) !important; }
-
-        .skill-item:hover { transform: translateY(-5px); }
-        
-        .skill-text {
-            opacity: 0; font-size: 1rem; margin-top: 10px; font-weight: bold;
-            color: var(--text-color); transform: translateY(10px);
-            transition: all 0.3s ease-in-out; position: absolute;
-            bottom: -30px; white-space: nowrap;
-        }
-        .skill-item:hover .skill-text { opacity: 1; transform: translateY(0); }
-
-        /* --- PROGETTI --- */
-        .section-title { text-align: center; font-size: 3rem; margin: 100px 0 50px; color: var(--accent); }
-        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
-        .projects-grid { display: flex; flex-direction: column; gap: 80px; padding-bottom: 80px; }
-
-        .project-card {
-            background: var(--card-bg); border-radius: 25px; overflow: hidden;
-            box-shadow: 0 20px 50px var(--shadow);
-            transition: transform 0.3s ease, background 0.4s ease;
-        }
-        .project-card:hover { transform: translateY(-8px); }
-
-        .card-media { width: 100%; height: 500px; background-color: #333; overflow: hidden; position: relative; }
-        .card-media img { width: 100%; height: 100%; object-fit: cover; }
-        .card-content { padding: 50px; }
-        .card-title { color: var(--accent); font-size: 2.5rem; margin-bottom: 20px; }
-        .card-desc { font-size: 1.25rem; margin-bottom: 30px; color: var(--text-secondary); max-width: 90%; }
-
-        .btn {
-            background-color: var(--primary); color: #ffffff; padding: 15px 30px;
-            border: none; border-radius: 10px; cursor: pointer;
-            font-weight: bold; text-transform: uppercase; font-size: 1.1rem;
-            transition: background 0.3s; text-align: center;
-            text-decoration: none; display: inline-block;
-        }
-        .btn:hover { background-color: #e05a00; }
-
-        /* --- MODAL --- */
-        .modal {
-            display: none; position: fixed; z-index: 2000;
-            left: 0; top: 0; width: 100%; height: 100%;
-            overflow: auto; background-color: var(--modal-overlay);
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background-color: var(--card-bg); margin: 3% auto; padding: 40px;
-            border-radius: 15px; width: 95%; max-width: 1100px; position: relative;
-            border-top: 6px solid var(--primary); box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            color: var(--text-color); transition: background 0.4s ease;
-        }
-        .close-btn {
-            color: var(--text-secondary); float: right; font-size: 35px;
-            font-weight: bold; cursor: pointer; line-height: 0.7;
-        }
-        .close-btn:hover { color: var(--primary); }
-
-        /* --- CAROUSEL --- */
-        .carousel-container {
-            position: relative; width: 100%; height: 500px;
-            background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 25px;
-        }
-        .slide { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; background-color: #222; }
-        .slide img, .slide video, .slide model-viewer, .slide iframe {
-            width: 100%; height: 100%; object-fit: contain; border: none;
-        }
-        .fade { animation-name: fade; animation-duration: 0.5s; }
-        @keyframes fade { from {opacity: .4} to {opacity: 1} }
-        .prev, .next {
-            cursor: pointer; position: absolute; top: 50%; width: auto;
-            margin-top: -22px; padding: 16px; color: white; font-weight: bold;
-            font-size: 18px; transition: 0.6s ease; border-radius: 0 3px 3px 0;
-            user-select: none; background-color: rgba(0,0,0,0.3); border: none; z-index: 10;
-        }
-        .next { right: 0; border-radius: 3px 0 0 3px; }
-        .prev:hover, .next:hover { background-color: var(--primary); }
-        .numbertext {
-            color: #f2f2f2; font-size: 12px; padding: 8px 12px; position: absolute;
-            top: 0; left: 0; background: rgba(0,0,0,0.5); border-bottom-right-radius: 10px; z-index: 10;
-        }
-
-        /* --- SPECIFICATIONS --- */
-        .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 25px; }
-        @media (max-width: 768px) { .specs-grid { grid-template-columns: 1fr; } }
-        .tech-block {
-            background: var(--bg-color); padding: 25px; border-radius: 12px;
-            border: 1px solid var(--shadow); transition: background 0.4s ease;
-        }
-        .tech-block h3 { color: var(--accent); border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 15px; }
-        ul.bom-list { list-style-type: none; }
-        ul.bom-list li { margin-bottom: 10px; padding-left: 25px; position: relative; }
-        ul.bom-list li::before {
-            content: "\f013"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            color: var(--primary); position: absolute; left: 0; font-size: 0.8em; top: 3px;
-        }
-
-        /* --- DONATION --- */
-        .donation-section {
-            background-color: var(--card-bg); padding: 80px 20px;
-            text-align: center; margin-top: 60px; transition: background 0.4s ease;
-        }
-        .donation-box { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 25px; }
-        .keychain-img {
-            width: 250px; height: 250px; background-color: #eee;
-            border-radius: 50%; border: 4px solid var(--primary);
-            object-fit: cover; margin-bottom: 15px;
-        }
-
-        /* --- LINKS E FOOTER --- */
-        .contact-section {
-            background-color: var(--contact-bg);
-            color: var(--contact-text);
-            padding: 60px 20px; text-align: center;
-            transition: background 0.4s ease;
-        }
-        .contact-content { max-width: 700px; margin: 0 auto; }
-        .contact-content h2 { color: var(--primary); font-size: 2.2rem; margin-bottom: 20px; }
-        .contact-content p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 30px; }
-        
-        .social-links { display: flex; justify-content: center; gap: 30px; margin-top: 30px; }
-        .social-links a {
-            color: var(--contact-text);
-            font-size: 2.5rem; transition: color 0.3s, transform 0.3s;
-        }
-        .social-links a:hover { color: var(--primary); transform: scale(1.2); }
-        /* --- FORM CONTATTI --- */
-        .contact-form {
-            width: 100%;
-            max-width: 600px;
-            margin: 30px auto 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .input-group input, .input-group textarea {
-            width: 100%;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid transparent;
-            background-color: rgba(255, 255, 255, 0.1); /* Sfondo semitrasparente */
-            color: var(--contact-text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        /* Focus: quando clicchi nel campo */
-        .input-group input:focus, .input-group textarea:focus {
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: var(--primary);
-        }
-
-        /* Colore del placeholder (il testo suggerito) */
-        ::placeholder { color: rgba(255, 255, 255, 0.6); }
-
-        footer {
-            background-color: var(--footer-bg);
-            color: #888; text-align: center; padding: 20px; font-size: 0.8rem;
-            transition: background 0.4s ease;
-        }
-
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-15px);} 60% {transform: translateY(-7px);} }
-        
-        /* ---  MOBILE --- */
-        @media (max-width: 768px) {
-            h1 { font-size: 3rem; }
-            .card-media { height: 250px; }
-            .carousel-container { height: 300px; }
-            .settings-bar { top: 10px; right: 10px; gap: 10px; }
-            .settings-btn { padding: 6px 12px; font-size: 0.8rem; }
-
-            /* FIX MOBILE BACKGROUND */
-            header { 
-                height: 100vh;
-                background-attachment: scroll !important; 
-                background-position: center center; 
-                background-size: cover;
-            }
-        }
-    </style>
-    <script src="https://cdn.counter.dev/script.js" data-id="5ed89175-605c-44e6-be72-3900a823671e" data-utcoffset="1"></script>
-</head>
-<body>
+    <!-- Sets the theme before first paint (no flash of the wrong theme). -->
+    <script src="/theme-init.js"></script>
+    <script type="module" src="/src/main.js"></script>
+    <script
+      defer
+      src="https://cdn.counter.dev/script.js"
+      data-id="5ed89175-605c-44e6-be72-3900a823671e"
+      data-utcoffset="1"
+    ></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="skip_link">Vai al contenuto</a>
 
     <div class="settings-bar">
-        <button class="settings-btn" id="lang-btn" onclick="toggleLanguage()">
-            <i class="fas fa-globe"></i> <span id="lang-label">IT</span>
-        </button>
-        <button class="settings-btn" id="theme-btn" onclick="toggleTheme()">
-            <i class="fas fa-moon"></i>
-        </button>
+      <button
+        type="button"
+        class="settings-btn"
+        data-language-toggle
+        aria-label="Cambia lingua: passa all'inglese"
+        data-i18n-attr="aria-label:lang_toggle"
+      >
+        <svg class="icon" aria-hidden="true" focusable="false">
+          <use href="/icons.svg#globe"></use>
+        </svg>
+        <span data-language-label>IT</span>
+      </button>
+      <button
+        type="button"
+        class="settings-btn"
+        data-theme-toggle
+        aria-label="Attiva il tema scuro"
+      >
+        <svg class="icon icon--moon" aria-hidden="true" focusable="false">
+          <use href="/icons.svg#moon"></use>
+        </svg>
+        <svg class="icon icon--sun" aria-hidden="true" focusable="false">
+          <use href="/icons.svg#sun"></use>
+        </svg>
+      </button>
     </div>
 
-    <header>
-        <div data-aos="fade-down" data-aos-duration="1200">
-            <h1 data-lang="hero_title">Ciao, sono <span class="highlight">Paul</span></h1>
-            <p class="tagline">
-                 <span id="static-text">Sono un ingegnere a cui piace </span>
-                 <span class="highlight" id="typewriter"></span><span class="cursor">&nbsp;</span>
-            </p>
-            <div style="margin-top: 40px;" data-aos="fade-up" data-aos-delay="200">
-            <a id="cv-link" href="data/cv_it.pdf" target="_blank" class="btn" style="display: inline-flex; align-items: center; gap: 10px; font-size: 1.2rem; padding: 15px 35px;">
-                <i class="fas fa-file-download"></i> 
-                <span data-lang="btn_cv">Scarica CV</span>
-            </a>
+    <header class="hero">
+      <div class="hero__inner" data-reveal="down">
+        <h1 class="hero__title" data-i18n="hero_title">
+          Ciao, sono <span class="highlight">Paul</span>
+        </h1>
+        <p class="hero__tagline">
+          <span data-i18n="hero_prefix">Sono un ingegnere a cui piace</span>
+          <span class="hero__typewriter highlight" data-typewriter aria-hidden="true"
+            >costruire cose.</span
+          >
+          <span class="sr-only" data-i18n="hero_phrases_sr"
+            >costruire cose, risolvere problemi, sperimentare, prototipare, la robotica.</span
+          >
+        </p>
+        <div class="hero__cta" data-reveal="up" data-reveal-delay="200">
+          <a
+            class="btn btn--lg"
+            href="/docs/cv_it.pdf"
+            target="_blank"
+            rel="noopener"
+            data-i18n-attr="href:cv_href"
+          >
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#download"></use>
+            </svg>
+            <span data-i18n="btn_cv">Scarica CV</span>
+          </a>
         </div>
-        </div>
-        <div class="scroll-down" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
-            <i class="fas fa-chevron-down"></i>
-        </div>
+      </div>
+      <a
+        class="hero__scroll"
+        href="#projects"
+        aria-label="Vai ai progetti"
+        data-i18n-attr="aria-label:scroll_down"
+      >
+        <svg class="icon" aria-hidden="true" focusable="false">
+          <use href="/icons.svg#chevron-down"></use>
+        </svg>
+      </a>
     </header>
 
-    <section class="skills-section" data-aos="fade-up">
-        <h3 style="color:var(--text-secondary); margin-bottom:30px; font-weight:300; letter-spacing: 2px;" data-lang="tech_stack">TECH STACK</h3>
-        <div class="skills-grid">
-            <div class="skill-item"> <i class="fab fa-python" style="color:#3776AB;"></i> <span class="skill-text">Python</span> </div>
-            <div class="skill-item"> <i class="fas fa-code" style="color:#00599C;"></i> <span class="skill-text">C / Embedded</span> </div>
-            <div class="skill-item"> <i class="fas fa-cube" style="color:#FF6700;"></i> <span class="skill-text">CAD Design</span> </div>
-            <div class="skill-item"> <i class="fas fa-print icon-print"></i> <span class="skill-text" data-lang="skill_3d">3D Printing</span> </div>
-            <div class="skill-item"> <i class="fas fa-microchip" style="color:#3A6EA5;"></i> <span class="skill-text">Electronics</span> </div>
-            <div class="skill-item"> <i class="fab fa-github icon-github"></i> <span class="skill-text">GitHub</span> </div>
-        </div>
-    </section>
+    <main id="main">
+      <section class="skills" data-reveal="up" aria-labelledby="skills-title">
+        <h2 class="skills__title" id="skills-title" data-i18n="tech_stack">TECH STACK</h2>
+        <ul class="skills__grid">
+          <li class="skill">
+            <svg class="icon skill__icon skill__icon--python" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#python"></use>
+            </svg>
+            <span class="skill__label">Python</span>
+          </li>
+          <li class="skill">
+            <svg class="icon skill__icon skill__icon--code" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#code"></use>
+            </svg>
+            <span class="skill__label">C / Embedded</span>
+          </li>
+          <li class="skill">
+            <svg class="icon skill__icon skill__icon--cad" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#cube"></use>
+            </svg>
+            <span class="skill__label">CAD Design</span>
+          </li>
+          <li class="skill">
+            <svg class="icon skill__icon skill__icon--print" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#print"></use>
+            </svg>
+            <span class="skill__label" data-i18n="skill_3d">Stampa 3D</span>
+          </li>
+          <li class="skill">
+            <svg
+              class="icon skill__icon skill__icon--electronics"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <use href="/icons.svg#microchip"></use>
+            </svg>
+            <span class="skill__label">Electronics</span>
+          </li>
+          <li class="skill">
+            <svg class="icon skill__icon skill__icon--github" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#github"></use>
+            </svg>
+            <span class="skill__label">GitHub</span>
+          </li>
+        </ul>
+      </section>
 
-    <section id="projects" class="container">
-        <h2 class="section-title" data-aos="fade-up" data-lang="projects_title">I Miei Progetti</h2>
+      <section id="projects" class="container" aria-labelledby="projects-title">
+        <h2 class="section-title" id="projects-title" data-reveal="up" data-i18n="projects_title">
+          I Miei Progetti
+        </h2>
 
-        <div class="projects-grid">
-            <article class="project-card" data-aos="fade-up">
-                <div class="card-media">
-                    <img src="data/hexapod.png" alt="Exabot Hexapod">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Hexapod v1</h3>
-                    <p class="card-desc" data-lang="desc_exabot_short">Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante focalizzato sulla meccanica e logica di movimento.</p>
-                    <button class="btn" onclick="openModal('modal-exabot')" data-lang="btn_details">Dettagli Tecnici</button>
-                </div>
-            </article>
-
-            <article class="project-card" data-aos="fade-up">
-                <div class="card-media">
-                    <img src="data/dumbe.png" alt="Dumb-E Robot Arm">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Dumb-E Manipulator v2</h3>
-                    <p class="card-desc" data-lang="desc_dumbe_short">Braccio robotico antropomorfo a 6 gradi di libertà (6-DOF) interamente progettato in CAD. Design modulare con riduttori cicloidali.</p>
-                    <button class="btn" onclick="openModal('modal-dumbe')" data-lang="btn_details">Dettagli Tecnici</button>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <div id="modal-exabot" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('modal-exabot')">&times;</span>
-            <h2 style="color: var(--accent); margin-bottom: 10px;">Exabot - Hexapod Robot</h2>
-            <p><strong data-lang="version">Versione:</strong> v1 (Prototipo Funzionante)</p>
-            <br>
-            <div class="carousel-container" id="carousel-exabot">
-                <div class="slide fade" style="display: flex;"> <div class="numbertext">1 / 4</div> <img src="data/hexapod.png" alt="Exabot Foto"> </div>
-                <div class="slide fade"> <div class="numbertext">2 / 4</div> <img src="data/debugging_hexapod.jpeg" alt="Debugging"> </div>
-                <div class="slide fade"> <div class="numbertext">3 / 4</div> <img src="data/leg_hexapod.jpeg" alt="Leg"> </div>
-                <div class="slide fade"> <div class="numbertext">4 / 4</div> <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/HTOONVzCEAM" title="YouTube video player" allowfullscreen></iframe> </div>
-                <button class="prev" onclick="plusSlides(-1, 'carousel-exabot')">&#10094;</button>
-                <button class="next" onclick="plusSlides(1, 'carousel-exabot')">&#10095;</button>
+        <div class="projects">
+          <article class="project-card" data-reveal="up">
+            <div class="project-card__media">
+              <img
+                src="./src/assets/img/hexapod.webp"
+                width="1600"
+                height="893"
+                loading="lazy"
+                decoding="async"
+                alt="Robot esapode Exabot"
+                data-i18n-attr="alt:alt_hexapod_card"
+              />
             </div>
-            <div class="specs-grid">
-                <div class="tech-block">
-                    <h3><i class="fas fa-microchip"></i> BOM</h3>
-                    <ul class="bom-list" data-lang="bom_exabot"></ul>
-                </div>
-                <div class="tech-block">
-                    <h3><i class="fas fa-ruler-combined"></i> <span data-lang="specs">Specifiche</span></h3>
-                    <p><strong data-lang="dimensions">Dimensioni:</strong> - [cm]</p>
-                    <p><strong data-lang="weight">Peso:</strong> - [kg]</p>
-                    <p><strong data-lang="payload">Carico MAX:</strong> - [kg]</p>
-                </div>
-                <div class="tech-block" style="grid-column: 1 / -1;">
-                    <h3><i class="fas fa-sync-alt"></i> <span data-lang="improvements">Miglioramenti</span></h3>
-                    <ul class="bom-list" data-lang="wip_exabot"></ul>
-                </div>
+            <div class="project-card__content">
+              <h3 class="project-card__title">Hexapod v1</h3>
+              <p class="project-card__desc" data-i18n="desc_exabot_short">
+                Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante
+                focalizzato sulla meccanica e logica di movimento.
+              </p>
+              <button
+                type="button"
+                class="btn"
+                data-modal-open="modal-exabot"
+                aria-haspopup="dialog"
+                data-i18n="btn_details"
+              >
+                Dettagli Tecnici
+              </button>
             </div>
+          </article>
+
+          <article class="project-card" data-reveal="up">
+            <div class="project-card__media">
+              <img
+                src="./src/assets/img/dumbe.webp"
+                width="1600"
+                height="754"
+                loading="lazy"
+                decoding="async"
+                alt="Braccio robotico Dumb-E"
+                data-i18n-attr="alt:alt_dumbe_card"
+              />
+            </div>
+            <div class="project-card__content">
+              <h3 class="project-card__title">Dumb-E Manipulator v2</h3>
+              <p class="project-card__desc" data-i18n="desc_dumbe_short">
+                Braccio robotico antropomorfo a 6 gradi di libertà (6-DOF) interamente progettato in
+                CAD. Design modulare con riduttori cicloidali.
+              </p>
+              <button
+                type="button"
+                class="btn"
+                data-modal-open="modal-dumbe"
+                aria-haspopup="dialog"
+                data-i18n="btn_details"
+              >
+                Dettagli Tecnici
+              </button>
+            </div>
+          </article>
         </div>
-    </div>
+      </section>
 
-    <div id="modal-dumbe" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('modal-dumbe')">&times;</span>
-            <h2 style="color: var(--accent); margin-bottom: 10px;">Dumb-E - 6 DOF Manipulator</h2>
-            <p><strong data-lang="version">Versione:</strong> v2 (Work in Progress)</p>
-            <br>
-            <div class="carousel-container" id="carousel-dumbe">
-                <div class="slide fade" style="display: flex;"> <div class="numbertext">1 / 10</div> <img src="data/dumbe-render.jpg" alt="Render CAD" onerror="this.src='data/dumbe.png'"> </div>
-                <div class="slide fade"> <div class="numbertext">2 / 11</div> <img src="data/CAD.png" alt="Modello in CAD"> </div>
-                <div class="slide fade"> <div class="numbertext">3 / 11</div> <img src="data/base.png" alt="Componenti"> </div>
-                <div class="slide fade"> <div class="numbertext">4 / 11</div> <img src="data/joint1.png" alt="Componenti"> </div>
-                <div class="slide fade"> <div class="numbertext">5 / 11</div> <img src="data/joint2.png" alt="Componenti"> </div>
-                <div class="slide fade"> <div class="numbertext">6 / 11</div> <img src="data/joint3.png" alt="Componenti"> </div>
-                <div class="slide fade"> <div class="numbertext">7 / 11</div> <img src="data/end_eff.png" alt="Componenti"> </div>
-                <div class="slide fade"> <div class="numbertext">8 / 11</div> <img src="data/components.jpg" alt="Componenti"> </div>
-                <div class="slide fade"> <div class="numbertext">9 / 11</div> <model-viewer src="data/dumbe.glb" alt="Modello 3D Dumb-E" auto-rotate camera-controls shadow-intensity="1" style="width: 100%; height: 100%; background-color: #323232;"> <div slot="poster" style="display:flex; justify-content:center; align-items:center; height:100%;">Caricamento 3D...</div> </model-viewer> </div>
-                <div class="slide fade"> <div class="numbertext">10 / 11</div> <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/MQ-Nnzp1ekA" title="YouTube video player" allowfullscreen></iframe> </div>
-                <div class="slide fade"> <div class="numbertext">11 / 11</div> <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/e-37Qjs5Gcw" title="YouTube video player" allowfullscreen></iframe> </div>
-
-                <button class="prev" onclick="plusSlides(-1, 'carousel-dumbe')">&#10094;</button>
-                <button class="next" onclick="plusSlides(1, 'carousel-dumbe')">&#10095;</button>
-            </div>
-            <div class="specs-grid">
-                <div class="tech-block">
-                    <h3><i class="fas fa-microchip"></i> BOM</h3>
-                    <ul class="bom-list" data-lang="bom_dumbe"></ul>
-                </div>
-                <div class="tech-block">
-                    <h3><i class="fas fa-drafting-compass"></i> Design</h3>
-                    <p data-lang="design_dumbe_1"><strong>Struttura:</strong> 100% CAD Custom.</p>
-                    <p data-lang="design_dumbe_2"><strong>Modularità:</strong> Giunti intercambiabili.</p>
-                    <p data-lang="design_dumbe_3"><strong>End Effector:</strong> Tripla pinza.</p>
-                </div>
-                <div class="tech-block" style="grid-column: 1 / -1;">
-                    <h3><i class="fas fa-hard-hat"></i> <span data-lang="wip_status">WIP Status</span></h3>
-                    <ul class="bom-list" data-lang="wip_dumbe_list"></ul>
-                </div>
-            </div>
+      <section class="donation" aria-labelledby="donate-title">
+        <div class="donation__box" data-reveal="zoom">
+          <h2 class="donation__title" id="donate-title" data-i18n="donate_title">
+            Sostieni i miei progetti
+          </h2>
+          <img
+            class="donation__img"
+            src="./src/assets/img/keychain.webp"
+            width="500"
+            height="500"
+            loading="lazy"
+            decoding="async"
+            alt="Portachiavi in legno inciso a laser"
+            data-i18n-attr="alt:alt_keychain"
+          />
+          <p data-i18n="donate_text">
+            Costruire robot e prototipi ha dei costi vivi.<br />Se ti piace quello che faccio, una
+            donazione mi aiuta molto!<br /><br /><strong>🎁 GIFT:</strong> Come segno di
+            gratitudine, per le donazioni superiori a 15€ sarò felice di inviarti in omaggio un
+            portachiavi in legno personalizzato inciso a laser.
+          </p>
+          <a
+            class="btn btn--pill btn--lg"
+            href="https://paypal.me/paypaaulpay"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#paypal"></use>
+            </svg>
+            <span data-i18n="btn_donate">Dona con PayPal</span>
+          </a>
+          <p class="donation__info" data-i18n="donate_info">
+            (Per info dopo la donazione contattami)
+          </p>
         </div>
-    </div>
+      </section>
 
-    <section class="donation-section">
-        <div class="donation-box" data-aos="zoom-in">
-            <h2 style="color: var(--primary);" data-lang="donate_title">Sostieni i miei progetti</h2>
-            <img src="data/keychain.png" alt="Portachiavi Legno" class="keychain-img">
-            <p class="donation-text" data-lang="donate_text">
-                Costruire robot ha dei costi vivi.<br> Una donazione mi aiuta molto!<br><br>
-                <strong>🎁 GIFT:</strong> Come segno di gratitudine, per le donazioni superiori a 15€ sarò felice di inviarti in omaggio un portachiavi in legno personalizzato inciso a laser..
+      <section class="contact" data-reveal="up" aria-labelledby="contact-title">
+        <div class="contact__content">
+          <h2 class="contact__title" id="contact-title" data-i18n="contact_title">Parliamone!</h2>
+          <p class="contact__text" data-i18n="contact_text">
+            Scrivimi per collaborazioni, domande o anche solo per un saluto!
+          </p>
+
+          <form
+            class="contact-form"
+            name="contact"
+            method="POST"
+            action="/thanks.html"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <p hidden>
+              <label
+                >Do not fill this field if you are human: <input type="text" name="bot-field"
+              /></label>
             </p>
-            <br>
-            <a href="https://paypal.me/paypaaulpay" target="_blank" class="btn" style="font-size: 1.2rem; padding: 15px 40px; border-radius: 50px;">
-                <i class="fab fa-paypal"></i> <span data-lang="btn_donate">Dona con PayPal</span>
-            </a>
-            <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-secondary);" data-lang="donate_info">(Per info dopo la donazione contattami)</p>
-        </div>
-    </section>
 
-    <section class="contact-section" data-aos="fade-up">
-        <div class="contact-content">
-            <h2 data-lang="contact_title">Parliamone!</h2>
-            <p data-lang="contact_text">
-                Sono entusiasta di ricevere consigli o critiche costruttive.<br>
-                Sono qui per imparare e migliorare.
-            </p>
-
-            <form name="contact" method="POST" data-netlify="true" class="contact-form">
-                <input type="hidden" name="form-name" value="contact">
-                
-                <div class="input-group">
-                    <input type="text" name="name" required data-lang-placeholder="form_name_ph" placeholder="Il tuo nome">
-                </div>
-                <div class="input-group">
-                    <input type="email" name="email" required data-lang-placeholder="form_email_ph" placeholder="La tua email">
-                </div>
-                <div class="input-group">
-                    <textarea name="message" rows="5" required data-lang-placeholder="form_msg_ph" placeholder="Il tuo messaggio..."></textarea>
-                </div>
-                
-                <button type="submit" class="btn" style="width:100%; margin-top:10px;" data-lang="form_btn">Invia Messaggio</button>
-            </form>
-
-            <div class="social-links" style="margin-top: 50px;">
-                <a href="https://www.linkedin.com/in/ILTUONOME" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="https://instagram.com/pay.paaul" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://github.com/paypaaul" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="mailto:paolo.vezzini1@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            <div class="contact-form__field">
+              <label class="sr-only" for="contact-name" data-i18n="form_name">Il tuo nome</label>
+              <input
+                id="contact-name"
+                type="text"
+                name="name"
+                autocomplete="name"
+                maxlength="100"
+                required
+                placeholder="Il tuo nome"
+                data-i18n-attr="placeholder:form_name"
+              />
             </div>
-        </div>
-        </div>
-    </section>
+            <div class="contact-form__field">
+              <label class="sr-only" for="contact-email" data-i18n="form_email">La tua email</label>
+              <input
+                id="contact-email"
+                type="email"
+                name="email"
+                autocomplete="email"
+                maxlength="254"
+                required
+                placeholder="La tua email"
+                data-i18n-attr="placeholder:form_email"
+              />
+            </div>
+            <div class="contact-form__field">
+              <label class="sr-only" for="contact-message" data-i18n="form_msg"
+                >Il tuo messaggio...</label
+              >
+              <textarea
+                id="contact-message"
+                name="message"
+                rows="5"
+                maxlength="5000"
+                required
+                placeholder="Il tuo messaggio..."
+                data-i18n-attr="placeholder:form_msg"
+              ></textarea>
+            </div>
 
-    <footer>
-        <p style="text-align: center; padding: 20px; font-size: 0.8rem;">
-            &copy; 2025 Portfolio di Paolo Vezzini.
-        </p>
+            <button type="submit" class="btn btn--block" data-i18n="form_btn">
+              Invia Messaggio
+            </button>
+          </form>
+
+          <ul class="social-links">
+            <!-- LinkedIn: add <li><a href="https://www.linkedin.com/in/<profile>" ...> here (icon id: "linkedin"). -->
+            <li>
+              <a
+                href="https://instagram.com/pay.paaul"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <svg class="icon" aria-hidden="true" focusable="false">
+                  <use href="/icons.svg#instagram"></use>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/paypaaul"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <svg class="icon" aria-hidden="true" focusable="false">
+                  <use href="/icons.svg#github"></use>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:paolo.vezzini1@gmail.com" aria-label="Email">
+                <svg class="icon" aria-hidden="true" focusable="false">
+                  <use href="/icons.svg#envelope"></use>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        &copy; <span data-year>2026</span>
+        <span data-i18n="footer_text">Portfolio di Paolo Vezzini.</span>
+      </p>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 1000, once: true });
+    <dialog class="modal" id="modal-exabot" aria-labelledby="modal-exabot-title">
+      <div class="modal__content">
+        <button
+          type="button"
+          class="modal__close"
+          data-modal-close
+          aria-label="Chiudi"
+          data-i18n-attr="aria-label:close"
+        >
+          <svg class="icon" aria-hidden="true" focusable="false">
+            <use href="/icons.svg#close"></use>
+          </svg>
+        </button>
+        <h2 class="modal__title" id="modal-exabot-title">Exabot - Hexapod Robot</h2>
+        <p class="modal__meta">
+          <strong data-i18n="version">Versione:</strong>
+          <span data-i18n="exabot_version">v1 (Prototipo Funzionante)</span>
+        </p>
 
-        // ---  THEMES --- //
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme); 
-            const icon = document.querySelector('#theme-btn i');
-            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
+        <section
+          class="carousel"
+          data-carousel
+          aria-roledescription="carousel"
+          aria-label="Galleria di Exabot"
+          data-i18n-attr="aria-label:carousel_exabot"
+        >
+          <div class="carousel__viewport" data-carousel-viewport>
+            <div class="carousel__slide" data-carousel-slide>
+              <img
+                src="./src/assets/img/hexapod.webp"
+                width="1600"
+                height="893"
+                loading="lazy"
+                decoding="async"
+                alt="Exabot: foto del robot esapode"
+                data-i18n-attr="alt:alt_exabot_photo"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/debugging_hexapod.webp"
+                width="360"
+                height="480"
+                loading="lazy"
+                decoding="async"
+                alt="Exabot: debug del cablaggio"
+                data-i18n-attr="alt:alt_exabot_debug"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/leg_hexapod.webp"
+                width="360"
+                height="480"
+                loading="lazy"
+                decoding="async"
+                alt="Exabot: dettaglio di una zampa"
+                data-i18n-attr="alt:alt_exabot_leg"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <iframe
+                data-src="https://www.youtube-nocookie.com/embed/HTOONVzCEAM"
+                title="Exabot: video dimostrativo"
+                data-i18n-attr="title:title_video_exabot"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <p class="carousel__counter" data-carousel-counter aria-live="polite"></p>
+          <button
+            type="button"
+            class="carousel__btn carousel__btn--prev"
+            data-carousel-prev
+            aria-label="Slide precedente"
+            data-i18n-attr="aria-label:carousel_prev"
+          >
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#chevron-left"></use>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="carousel__btn carousel__btn--next"
+            data-carousel-next
+            aria-label="Slide successiva"
+            data-i18n-attr="aria-label:carousel_next"
+          >
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#chevron-right"></use>
+            </svg>
+          </button>
+        </section>
 
-        const savedTheme = localStorage.getItem('theme');
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-            document.body.setAttribute('data-theme', 'dark');
-            document.querySelector('#theme-btn i').className = 'fas fa-sun';
-        }
+        <div class="specs-grid">
+          <section class="tech-block">
+            <h3>
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#microchip"></use>
+              </svg>
+              BOM
+            </h3>
+            <ul class="bom-list" data-i18n="bom_exabot">
+              <li><strong>Controller:</strong> ESP32 DevKit V1</li>
+              <li><strong>Driver:</strong> PCA9685 (I2C)</li>
+              <li><strong>Motori:</strong> 18x MG996R</li>
+              <li><strong>Alimentazione:</strong> LiPo 2S (7.4V) + Buck 15A</li>
+              <li><strong>Struttura:</strong> Stampato in 3D (PLA) da Thingiverse.</li>
+            </ul>
+          </section>
+          <section class="tech-block">
+            <h3>
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#ruler"></use>
+              </svg>
+              <span data-i18n="specs">Specifiche</span>
+            </h3>
+            <p>
+              <strong data-i18n="dimensions">Dimensioni:</strong>
+              <span data-i18n="spec_tbd">da definire</span>
+            </p>
+            <p>
+              <strong data-i18n="weight">Peso:</strong>
+              <span data-i18n="spec_tbd">da definire</span>
+            </p>
+            <p>
+              <strong data-i18n="payload">Carico Max:</strong>
+              <span data-i18n="spec_tbd">da definire</span>
+            </p>
+          </section>
+          <section class="tech-block tech-block--wide">
+            <h3>
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#sync"></use>
+              </svg>
+              <span data-i18n="improvements">Miglioramenti</span>
+            </h3>
+            <ul class="bom-list" data-i18n="wip_exabot">
+              <li>Integrazione <strong>SSC32-V2.5</strong> per jitter.</li>
+              <li>Irrobustimento alimentazione.</li>
+              <li>Valutazione integrazione di sensori vari.</li>
+              <li><strong>V2:</strong> Telaio custom in via di sviluppo.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </dialog>
 
-        // --- LANGUAGES --- //
-        let currentLang = localStorage.getItem('lang') || 'it';
+    <dialog class="modal" id="modal-dumbe" aria-labelledby="modal-dumbe-title">
+      <div class="modal__content">
+        <button
+          type="button"
+          class="modal__close"
+          data-modal-close
+          aria-label="Chiudi"
+          data-i18n-attr="aria-label:close"
+        >
+          <svg class="icon" aria-hidden="true" focusable="false">
+            <use href="/icons.svg#close"></use>
+          </svg>
+        </button>
+        <h2 class="modal__title" id="modal-dumbe-title">Dumb-E - 6 DOF Manipulator</h2>
+        <p class="modal__meta">
+          <strong data-i18n="version">Versione:</strong>
+          <span data-i18n="dumbe_version">v2 (Work in Progress)</span>
+        </p>
 
-       const translations = {
-            it: {
-                hero_title: 'Ciao, sono <span class="highlight">Paul</span>',
-                hero_subtitle: 'Sono un ingegnere a cui piace <span class="highlight">costruire cose</span>.',
-                btn_cv: 'Scarica CV',
-                tech_stack: 'TECH STACK',
-                skill_3d: 'Stampa 3D',
-                projects_title: 'I Miei Progetti',
-                btn_details: 'Dettagli Tecnici',
-                version: 'Versione:',
-                specs: 'Specifiche',
-                dimensions: 'Dimensioni:',
-                weight: 'Peso:',
-                payload: 'Carico Max:',
-                improvements: 'Miglioramenti',
-                wip_status: 'Stato Lavori (WIP)',
-                donate_title: 'Sostieni i miei progetti',
-                donate_text: 'Costruire robot e prototipi ha dei costi vivi.<br>Se ti piace quello che faccio, una donazione mi aiuta molto!<br><br><strong>🎁 GIFT:</strong> Come segno di gratitudine, per le donazioni superiori a 15€ sarò felice di inviarti in omaggio un portachiavi in legno personalizzato inciso a laser.',
-                btn_donate: 'Dona con PayPal',
-                donate_info: '(Per info dopo la donazione contattami)',
-                contact_title: 'Parliamone!',
-                contact_text: 'Sono entusiasta di ricevere consigli o critiche costruttive.<br>Sono qui per imparare e migliorare.',
-                desc_exabot_short: 'Un robot esapode stampato in 3D controllato tramite ESP32. Prototipo funzionante focalizzato sulla meccanica e logica di movimento.',
-                desc_dumbe_short: 'Braccio robotico antropomorfo a 6 gradi di libertà (6-DOF) interamente progettato in CAD. Design modulare con riduttori cicloidali.',
-                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motori:</strong> 18x MG996R</li><li><strong>Alimentazione:</strong> LiPo 2S (7.4V) + Buck 15A</li>
-                            <li><strong>Struttura:</strong> Stampato in 3D (PLA) da Thingiverse.</li>`,
-                wip_exabot: `<li>Integrazione <strong>SSC32-V2.5</strong> per jitter.</li><li>Irrobustimento alimentazione.</li><li>Valutazione integrazione di sensori vari.</li><li><strong>V2:</strong> Telaio custom in via di sviluppo.</li>`,
-                bom_dumbe: `<li><strong>Motori:</strong> Nema 17 (1.7A)</li><li><strong>Riduttori:</strong> Cicloidali 20:1 (da SweepDynamcs)</li><li><strong>Driver:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>
-                            <li><strong>Alimentazione:</strong> 24V 15A + 5V 5A Convertitore Buck</li><li><strong>Sensori:</strong> GY-521/GY-6500 per bilanciamento, Hall Effect per homing</li>`,
-                wip_dumbe_list: `<li>Stampa struttura e test.</li><li>Cablaggio Alimentazione e TMC2209.</li><li>Sviluppo firmware.</li>`,
-                design_dumbe_1: '<strong>Struttura:</strong> Custom stampata in 3D (PLA).',
-                design_dumbe_2: '<strong>Modularità:</strong> Giunti intercambiabili.',
-                design_dumbe_3: '<strong>End Effector:</strong> Tripla pinza.',
-                contact_text: 'Scrivimi per collaborazioni, domande o anche solo per un saluto!', 
-                form_name_ph: 'Il tuo nome',
-                form_email_ph: 'La tua email',
-                form_msg_ph: 'Il tuo messaggio...',
-                form_btn: 'Invia Messaggio'
-            },
-            en: {
-                hero_title: 'Hi, I am <span class="highlight">Paul</span>',
-                hero_subtitle: 'I am an engineer who loves <span class="highlight">building things</span>.',
-                btn_cv: 'Download CV',
-                tech_stack: 'TECH STACK',
-                skill_3d: '3D Printing',
-                projects_title: 'My Projects',
-                btn_details: 'Tech Details',
-                version: 'Version:',
-                specs: 'Specifications',
-                dimensions: 'Dimensions:',
-                weight: 'Weight:',
-                payload: 'Payload:',
-                improvements: 'Improvements',
-                wip_status: 'WIP Status',
-                donate_title: 'Support my projects',
-                donate_text: 'Building robots involves costs.<br>If you like what I do, a donation helps a lot!<br><br><strong>🎁 GIFT:</strong> As a token of appreciation for donations over <strong>€15</strong>, I will be happy to send you a complimentary laser-engraved wooden keychain.',
-                btn_donate: 'Donate with PayPal',
-                donate_info: '(Contact me after donation for info)',
-                contact_title: 'Let\'s Talk!',
-                contact_text: 'I am super excited to receive advice, ideas, or constructive criticism.<br>I am here to learn and improve.',
-                desc_exabot_short: 'A 3D printed hexapod robot controlled via ESP32. Working prototype focused on mechanics and movement logic.',
-                desc_dumbe_short: 'Anthropomorphic 6-DOF robotic arm fully designed in CAD. Modular design with cycloidal drives.',
-                bom_exabot: `<li><strong>Controller:</strong> ESP32 DevKit V1</li><li><strong>Driver:</strong> PCA9685 (I2C)</li><li><strong>Motors:</strong> 18x MG996R</li><li><strong>Power Supply:</strong> LiPo 2S (7.4V) + Buck Converter 15A</li>
-                            <li><strong>Structure:</strong> 3D printed (PLA) from Thingiverse.</li>`,
-                wip_exabot: `<li>Integration of <strong>SSC32-V2.5</strong> (jitter fix).</li><li>Power wiring upgrade.</li><li>Assessment of integration of multiple sensors.</li><li><strong>V2:</strong> Custom Frame under development.</li>`,
-                bom_dumbe: `<li><strong>Motors:</strong> Nema 17 (1.7A)</li><li><strong>Gears:</strong> Cycloidal 20:1 (from SweepDynamics)</li><li><strong>Drivers:</strong> TMC2209</li><li><strong>Controller:</strong> ESP32</li>
-                            <li><strong>Power Supply:</strong> 24V 15A + 5V 5A Buck Converter</li><li><strong>Sensors:</strong> GY-521/GY-6500 for balancing, Hall Effect for homing</li>`,
-                wip_dumbe_list: `<li>Structure printing & testing.</li><li>TMC2209 and Power Wiring.</li><li>Firmware development.</li>`,
-                design_dumbe_1: '<strong>Structure:</strong> Custom 3D printed (PLA).',
-                design_dumbe_2: '<strong>Modularity:</strong> Interchangeable joints.',
-                design_dumbe_3: '<strong>End Effector:</strong> Triple Gripper.',
-                contact_text: 'Write me for collaborations, questions or just to say hi!',
-                form_name_ph: 'Your Name',
-                form_email_ph: 'Your Email',
-                form_msg_ph: 'Your Message...',
-                form_btn: 'Send Message'
-            }
-        };
-        
-        // --- TYPEWRITER SETTINGS ---
-        const typeWriterPhrases = {
-            it: ["costruire cose.", "risolvere problemi.", "sperimentare.", "Prototipare.", "la robotica."],
-            en: ["building things.", "solving problems.", "experimenting.", "Prototyping.", "robotics."]
-        };
-        
-        const staticPhrases = {
-            it: "Sono un ingegnere a cui piace ",
-            en: "I am an engineer who loves "
-        };
+        <section
+          class="carousel"
+          data-carousel
+          aria-roledescription="carousel"
+          aria-label="Galleria di Dumb-E"
+          data-i18n-attr="aria-label:carousel_dumbe"
+        >
+          <div class="carousel__viewport" data-carousel-viewport>
+            <div class="carousel__slide" data-carousel-slide>
+              <img
+                src="./src/assets/img/dumbe.webp"
+                width="1600"
+                height="754"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: vista generale del braccio"
+                data-i18n-attr="alt:alt_dumbe_overview"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/CAD.webp"
+                width="1600"
+                height="1346"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: modello CAD"
+                data-i18n-attr="alt:alt_dumbe_cad"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/base.webp"
+                width="759"
+                height="635"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: base del braccio"
+                data-i18n-attr="alt:alt_dumbe_base"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/joint1.webp"
+                width="1600"
+                height="1538"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: primo giunto"
+                data-i18n-attr="alt:alt_dumbe_joint1"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/joint2.webp"
+                width="702"
+                height="635"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: secondo giunto"
+                data-i18n-attr="alt:alt_dumbe_joint2"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/joint3.webp"
+                width="745"
+                height="626"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: terzo giunto"
+                data-i18n-attr="alt:alt_dumbe_joint3"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/end_eff.webp"
+                width="760"
+                height="626"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: end effector a tripla pinza"
+                data-i18n-attr="alt:alt_dumbe_end_effector"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <img
+                src="./src/assets/img/components.webp"
+                width="1400"
+                height="1050"
+                loading="lazy"
+                decoding="async"
+                alt="Dumb-E: componenti meccanici ed elettronici"
+                data-i18n-attr="alt:alt_dumbe_components"
+              />
+            </div>
+            <div class="carousel__slide" data-carousel-slide data-lazy-module="model-viewer" hidden>
+              <model-viewer
+                data-model="dumbe.glb"
+                alt="Dumb-E: modello 3D interattivo"
+                data-i18n-attr="alt:alt_dumbe_3d"
+                auto-rotate
+                camera-controls
+                shadow-intensity="1"
+              >
+                <div slot="poster" class="carousel__loading" data-i18n="loading_3d">
+                  Caricamento 3D...
+                </div>
+              </model-viewer>
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <iframe
+                data-src="https://www.youtube-nocookie.com/embed/MQ-Nnzp1ekA"
+                title="Dumb-E: video di assemblaggio"
+                data-i18n-attr="title:title_video_dumbe_assembly"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="carousel__slide" data-carousel-slide hidden>
+              <iframe
+                data-src="https://www.youtube-nocookie.com/embed/e-37Qjs5Gcw"
+                title="Dumb-E: demo del braccio robotico"
+                data-i18n-attr="title:title_video_dumbe_demo"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <p class="carousel__counter" data-carousel-counter aria-live="polite"></p>
+          <button
+            type="button"
+            class="carousel__btn carousel__btn--prev"
+            data-carousel-prev
+            aria-label="Slide precedente"
+            data-i18n-attr="aria-label:carousel_prev"
+          >
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#chevron-left"></use>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="carousel__btn carousel__btn--next"
+            data-carousel-next
+            aria-label="Slide successiva"
+            data-i18n-attr="aria-label:carousel_next"
+          >
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="/icons.svg#chevron-right"></use>
+            </svg>
+          </button>
+        </section>
 
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 100;
-        let typeTimer; // timer variable
-
-        function typeWriter() {
-            const currentPhrases = typeWriterPhrases[currentLang]; // use current language
-            const currentPhrase = currentPhrases[phraseIndex % currentPhrases.length];
-            const typeSpan = document.getElementById("typewriter");
-            
-            // update acording to language
-            document.getElementById("static-text").innerText = staticPhrases[currentLang];
-
-            if (isDeleting) {
-                // delete animation
-                typeSpan.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-                typeSpeed = 50; 
-            } else {
-                // typing animation
-                typeSpan.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-                typeSpeed = 100; 
-            }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                // wait 
-                isDeleting = true;
-                typeSpeed = 2000; // pause before delete
-            } else if (isDeleting && charIndex === 0) {
-                // next word
-                isDeleting = false;
-                phraseIndex++;
-                typeSpeed = 500; // pause before retyping
-            }
-
-            typeTimer = setTimeout(typeWriter, typeSpeed);
-        }
-
-        // start animation
-        typeWriter();
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'it' ? 'en' : 'it';
-            localStorage.setItem('lang', currentLang);
-            updatePageText();
-            
-            // Reset Typewriter immediato
-            clearTimeout(typeTimer); // Ferma l'animazione corrente
-            document.getElementById("typewriter").textContent = ""; // Pulisce il testo
-            charIndex = 0;
-            isDeleting = false;
-            typeWriter(); // Riavvia con la lingua nuova
-        }
-
-        function updatePageText() {
-            // 1. Etichetta Lingua
-            document.getElementById('lang-label').innerText = currentLang.toUpperCase();
-            
-            // 2. Testi normali (innerHTML)
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                const key = element.getAttribute('data-lang');
-                if (translations[currentLang][key]) {
-                    element.innerHTML = translations[currentLang][key];
-                }
-            });
-
-            // 3. Placeholder dei Form (NUOVO)
-            document.querySelectorAll('[data-lang-placeholder]').forEach(element => {
-                const key = element.getAttribute('data-lang-placeholder');
-                if (translations[currentLang][key]) {
-                    element.placeholder = translations[currentLang][key];
-                }
-            });
-
-            // 4. Link CV
-            const cvLink = document.getElementById('cv-link');
-            if (cvLink) {
-                cvLink.href = `data/cv_${currentLang}.pdf`;
-            }
-        }
-        updatePageText();
-
-        function openModal(modalId) { document.getElementById(modalId).style.display = "block"; document.body.style.overflow = "hidden"; }
-        function closeModal(modalId) { document.getElementById(modalId).style.display = "none"; document.body.style.overflow = "auto"; }
-        window.onclick = function(event) { if (event.target.classList.contains('modal')) closeModal(event.target.id); }
-
-        let slideIndices = { 'carousel-dumbe': 1, 'carousel-exabot': 1 };
-        function plusSlides(n, carouselId) { showSlides(slideIndices[carouselId] += n, carouselId); }
-        function showSlides(n, carouselId) {
-            let i; let container = document.getElementById(carouselId); let slides = container.getElementsByClassName("slide");
-            if (n > slides.length) { slideIndices[carouselId] = 1 }
-            if (n < 1) { slideIndices[carouselId] = slides.length }
-            for (i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
-            slides[slideIndices[carouselId] - 1].style.display = "flex";
-        }
-    </script>
-</body>
+        <div class="specs-grid">
+          <section class="tech-block">
+            <h3>
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#microchip"></use>
+              </svg>
+              BOM
+            </h3>
+            <ul class="bom-list" data-i18n="bom_dumbe">
+              <li><strong>Motori:</strong> Nema 17 (1.7A)</li>
+              <li><strong>Riduttori:</strong> Cicloidali 20:1 (da SweepDynamics)</li>
+              <li><strong>Driver:</strong> TMC2209</li>
+              <li><strong>Controller:</strong> ESP32</li>
+              <li><strong>Alimentazione:</strong> 24V 15A + 5V 5A Convertitore Buck</li>
+              <li>
+                <strong>Sensori:</strong> GY-521/GY-6500 per bilanciamento, Hall Effect per homing
+              </li>
+            </ul>
+          </section>
+          <section class="tech-block">
+            <h3>
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#compass"></use>
+              </svg>
+              Design
+            </h3>
+            <p data-i18n="design_dumbe_1">
+              <strong>Struttura:</strong> Custom stampata in 3D (PLA).
+            </p>
+            <p data-i18n="design_dumbe_2"><strong>Modularità:</strong> Giunti intercambiabili.</p>
+            <p data-i18n="design_dumbe_3"><strong>End Effector:</strong> Tripla pinza.</p>
+          </section>
+          <section class="tech-block tech-block--wide">
+            <h3>
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="/icons.svg#helmet"></use>
+              </svg>
+              <span data-i18n="wip_status">Stato Lavori (WIP)</span>
+            </h3>
+            <ul class="bom-list" data-i18n="wip_dumbe_list">
+              <li>Stampa struttura e test.</li>
+              <li>Cablaggio Alimentazione e TMC2209.</li>
+              <li>Sviluppo firmware.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </dialog>
+  </body>
 </html>

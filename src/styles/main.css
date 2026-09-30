@@ -1,0 +1,21 @@
+/*
+ * Stylesheet entry point. Cascade layers make precedence explicit:
+ * later layers win over earlier ones regardless of selector specificity.
+ */
+@layer reset, tokens, base, components, utilities;
+
+@import './tokens.css';
+@import './base.css';
+@import './components/settings-bar.css';
+@import './components/button.css';
+@import './components/hero.css';
+@import './components/skills.css';
+@import './components/projects.css';
+@import './components/modal.css';
+@import './components/carousel.css';
+@import './components/specs.css';
+@import './components/donation.css';
+@import './components/contact.css';
+@import './components/footer.css';
+@import './components/thanks.css';
+@import './utilities.css';

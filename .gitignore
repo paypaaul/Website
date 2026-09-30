@@ -1,4 +1,19 @@
+# dependencies & build output
+node_modules/
+dist/
+
+# test output
+coverage/
+playwright-report/
+test-results/
+
+# OS / editor
 *~
-.vscode
+.vscode/
+.idea/
 .DS_Store
-old_files
+
+# local files
+.env
+.env.*
+old_files/

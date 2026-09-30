@@ -1,0 +1,101 @@
+@layer components {
+  .skills {
+    padding: 50px 20px;
+    text-align: center;
+    background: var(--card-bg);
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: background var(--transition-theme);
+  }
+
+  .skills__title {
+    margin-bottom: 30px;
+    font-size: 1.17rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+  }
+
+  .skills__grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 60px;
+    margin-top: 20px;
+    list-style: none;
+  }
+
+  .skill {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    font-size: 3.5rem;
+    color: var(--text-color);
+    transition: transform 0.3s;
+  }
+
+  .skill:hover {
+    transform: translateY(-5px);
+  }
+
+  .skill__icon {
+    transition: color var(--transition-theme);
+    filter: brightness(var(--icon-brightness));
+  }
+
+  .skill__icon--python {
+    color: #3776ab;
+  }
+
+  .skill__icon--code {
+    color: #00599c;
+  }
+
+  .skill__icon--cad {
+    color: #ff6700;
+  }
+
+  .skill__icon--print {
+    color: var(--icon-print);
+  }
+
+  .skill__icon--electronics {
+    color: #3a6ea5;
+  }
+
+  .skill__icon--github {
+    color: var(--icon-github);
+  }
+
+  .skill__label {
+    position: absolute;
+    bottom: -30px;
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .skill:hover .skill__label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* No hover on touch screens: always show the labels. */
+  @media (hover: none) {
+    .skills__grid {
+      gap: 30px 40px;
+    }
+
+    .skill__label {
+      position: static;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

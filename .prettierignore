@@ -1,0 +1,8 @@
+dist/
+node_modules/
+package-lock.json
+public/vendor/
+public/icons.svg
+public/_headers
+playwright-report/
+test-results/

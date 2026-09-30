@@ -1,0 +1,53 @@
+/* Design tokens: colors, theming and shared sizing. Components only use these variables. */
+@layer tokens {
+  :root {
+    /* Brand */
+    --primary: #ff6700; /* decorative use: borders, icons, text on dark backgrounds */
+    --primary-text: #bd4a00; /* orange text on light backgrounds (AA contrast) */
+    --btn-bg: #c74f00; /* white text on this has 4.6:1 contrast (AA) */
+    --btn-bg-hover: #a34000;
+
+    /* Surfaces (light) */
+    color-scheme: light;
+
+    --bg-color: #ebebeb;
+    --card-bg: #fff;
+    --text-color: #404040;
+    --text-secondary: #666;
+    --accent: #3a6ea5;
+    --shadow: rgb(0 0 0 / 10%);
+    --modal-overlay: rgb(0 0 0 / 90%);
+    --contact-bg: #2c2c2c;
+    --contact-text: #f0f0f0;
+    --footer-bg: #111;
+    --icon-github: #171515;
+    --icon-print: #333;
+    --icon-brightness: 100%;
+
+    /* Shared sizing */
+    --container-width: 1300px;
+    --radius-sm: 10px;
+    --radius-md: 15px;
+    --radius-lg: 25px;
+    --transition-theme: 0.4s ease;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+
+    --primary-text: #ff6700;
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f0f0f0;
+    --text-secondary: #aaa;
+    --accent: #64a6ea;
+    --shadow: rgb(0 0 0 / 50%);
+    --modal-overlay: rgb(0 0 0 / 95%);
+    --contact-bg: #000;
+    --contact-text: #ddd;
+    --footer-bg: #0a0a0a;
+    --icon-github: #fff;
+    --icon-print: #e0e0e0;
+    --icon-brightness: 130%;
+  }
+}
