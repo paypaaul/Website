@@ -1,0 +1,43 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { site } from '@/data/site';
+import { getDictionary, getLang } from '@/i18n';
+
+const t = getDictionary(getLang(Astro));
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border">
+  <div class="container-x flex flex-col items-center justify-between gap-4 py-8 text-sm text-muted-foreground sm:flex-row">
+    <p>
+      &copy; <span data-year>{year}</span> {t.footer.text}
+    </p>
+    <div class="flex items-center gap-1">
+      <a
+        class="icon-btn text-lg"
+        href={site.github.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
+      >
+        <Icon name="brand-github" />
+      </a>
+      <a
+        class="icon-btn text-lg"
+        href={site.instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+      >
+        <Icon name="brand-instagram" />
+      </a>
+      <a
+        class="ml-2 inline-flex items-center gap-2 rounded-full px-3 py-2 hover:bg-foreground/5 hover:text-foreground"
+        href="#top"
+      >
+        {t.footer.backToTop}
+        <Icon name="arrow-up-right" class="-rotate-45" />
+      </a>
+    </div>
+  </div>
+</footer>

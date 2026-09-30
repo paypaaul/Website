@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import keychain from '@/assets/img/keychain.webp';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { site } from '@/data/site';
+import { getDictionary, getLang } from '@/i18n';
+
+const t = getDictionary(getLang(Astro));
+const s = t.support;
+---
+
+<section id="support" aria-labelledby="support-title" class="container-x py-16 sm:py-24">
+  <div class="card border-beam relative overflow-hidden p-8 sm:p-12" data-reveal>
+    <div
+      class="pointer-events-none absolute -top-28 -right-28 size-80 rounded-full bg-accent/15 blur-3xl"
+      aria-hidden="true"
+    ></div>
+    <div class="relative grid items-center gap-10 md:grid-cols-[auto_1fr] md:gap-14">
+      <Image
+        src={keychain}
+        alt={s.imageAlt}
+        widths={[320, 480]}
+        sizes="(min-width: 768px) 224px, 160px"
+        class="size-40 rounded-2xl border border-border object-cover shadow-float md:size-56"
+        loading="lazy"
+      />
+      <div>
+        <p class="eyebrow">{s.eyebrow}</p>
+        <h2 id="support-title" class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+          {s.title}
+        </h2>
+        <div class="mt-4 space-y-2 text-lg text-muted-foreground">
+          {s.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        <p class="mt-6 flex gap-3 rounded-2xl border border-dashed border-border-strong bg-muted/60 p-4 text-sm">
+          <Icon name="gift" class="mt-0.5 text-lg text-accent-text" />
+          <span>
+            <strong class="font-semibold">{s.giftLabel}:</strong> {s.gift}
+          </span>
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <Button href={site.paypal} external size="lg">
+            <Icon name="brand-paypal" />
+            {s.cta}
+          </Button>
+          <p class="text-sm text-muted-foreground">{s.info}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,12 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/**/*", "tests/**/*", "*.mjs", "*.ts"],
+  "exclude": ["dist", "node_modules"],
+  "compilerOptions": {
+    "paths": { "@/*": ["./src/*"] },
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}

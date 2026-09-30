@@ -1,0 +1,102 @@
+---
+import Gallery from '@/components/project/Gallery.astro';
+import SpecCard from '@/components/project/SpecCard.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { getNextProject, type Project } from '@/data/projects';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getDictionary, getLang, projectAlternates, projectPath, sectionPath } from '@/i18n';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const lang = getLang(Astro);
+const t = getDictionary(lang);
+const next = getNextProject(project.slug);
+const title = `${project.name} · ${project.kind[lang]} | Paul`;
+---
+
+<BaseLayout
+  title={title}
+  description={project.summary[lang]}
+  alternates={projectAlternates(project.slug)}
+>
+  <main id="main" class="container-x pt-28 pb-24 sm:pt-36 sm:pb-32">
+    <a
+      href={sectionPath(lang, 'projects')}
+      class="group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+    >
+      <Icon name="arrow-left" class="transition-transform group-hover:-translate-x-0.5" />
+      {t.project.back}
+    </a>
+
+    <header class="hero-in mt-8 max-w-3xl">
+      <p class="eyebrow">{project.kind[lang]}</p>
+      <h1 class="mt-4 text-5xl font-semibold tracking-tighter sm:text-6xl">{project.name}</h1>
+      <p class="mt-5 text-lg text-muted-foreground">{project.summary[lang]}</p>
+      <dl class="mt-8 flex flex-wrap gap-x-12 gap-y-4">
+        <div>
+          <dt class="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            {t.project.version}
+          </dt>
+          <dd class="mt-1 font-medium">{project.version}</dd>
+        </div>
+        <div>
+          <dt class="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            {t.project.status}
+          </dt>
+          <dd class="mt-1 font-medium">{project.status[lang]}</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="hero-in mt-12 [--d:100ms]">
+      <Gallery project={project} lang={lang} />
+    </div>
+
+    <div class="mt-20 grid items-start gap-6 lg:grid-cols-[1.15fr_1fr]">
+      <SpecCard title={t.project.bom} icon="cpu" rows={project.bom} lang={lang} />
+      <div class="grid gap-6">
+        {project.design && (
+          <SpecCard title={t.project.design} icon="compass" rows={project.design} lang={lang} />
+        )}
+        {project.specs && (
+          <SpecCard title={t.project.specs} icon="ruler" rows={project.specs} lang={lang} />
+        )}
+        <SpecCard title={t.project.roadmap} icon="refresh" items={project.roadmap} lang={lang} />
+      </div>
+    </div>
+
+    <div class="mt-20 grid gap-6 md:grid-cols-2">
+      <a
+        href={projectPath(lang, next.slug)}
+        class="group card relative flex items-center justify-between gap-6 p-6 sm:p-8"
+        data-spotlight
+      >
+        <div>
+          <p class="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            {t.project.nextProject}
+          </p>
+          <p class="mt-2 text-2xl font-semibold tracking-tight">{next.name}</p>
+          <p class="mt-1 text-sm text-muted-foreground">{next.kind[lang]}</p>
+        </div>
+        <Icon
+          name="arrow-right"
+          class="text-2xl text-muted-foreground transition-transform group-hover:translate-x-1"
+        />
+      </a>
+
+      <div class="card flex flex-col justify-between gap-6 p-6 sm:p-8">
+        <p class="text-2xl font-semibold tracking-tight">{t.project.contactCta}</p>
+        <div>
+          <Button href={sectionPath(lang, 'contact')}>
+            {t.project.contactButton}
+            <Icon name="arrow-right" class="icon-shift" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

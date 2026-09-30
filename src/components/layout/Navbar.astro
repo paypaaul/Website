@@ -1,0 +1,104 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { getDictionary, getLang, homePath, otherLang, sectionPath, type Alternates } from '@/i18n';
+
+interface Props {
+  /** This page in every language, used by the language switcher. */
+  alternates: Alternates;
+}
+
+const { alternates } = Astro.props;
+const lang = getLang(Astro);
+const other = otherLang(lang);
+const t = getDictionary(lang);
+
+const links = [
+  { id: 'projects', label: t.nav.projects },
+  { id: 'skills', label: t.nav.skills },
+  { id: 'support', label: t.nav.support },
+  { id: 'contact', label: t.nav.contact },
+];
+---
+
+<header class="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4" data-nav>
+  <nav
+    aria-label={t.nav.label}
+    class="glass flex h-12 w-full max-w-md items-center gap-1 rounded-full border border-border px-2 shadow-float transition-shadow md:w-auto md:max-w-none"
+  >
+    <a
+      href={homePath(lang)}
+      aria-label={t.nav.home}
+      class="flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold tracking-tight"
+    >
+      <span
+        class="size-2 rounded-full bg-accent shadow-[0_0_12px_var(--accent)]"
+        aria-hidden="true"
+      ></span>
+      paul
+    </a>
+
+    <ul class="hidden items-center md:flex">
+      {links.map((link) => (
+        <li>
+          <a class="nav-link" href={sectionPath(lang, link.id)} data-nav-link={link.id}>
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <span class="mx-1 hidden h-5 w-px bg-border md:block" aria-hidden="true"></span>
+
+    <div class="ml-auto flex items-center gap-0.5 md:ml-0">
+      <a
+        class="icon-btn font-mono text-xs font-medium"
+        href={alternates[other]}
+        hreflang={other}
+        lang={other}
+        aria-label={t.nav.switchLang}
+      >
+        {t.nav.langCode}
+      </a>
+      <button
+        type="button"
+        class="icon-btn text-base"
+        data-theme-toggle
+        aria-label={t.nav.themeToDark}
+        data-label-to-dark={t.nav.themeToDark}
+        data-label-to-light={t.nav.themeToLight}
+      >
+        <Icon name="sun" class="hidden dark:block" />
+        <Icon name="moon" class="dark:hidden" />
+      </button>
+      <button
+        type="button"
+        class="icon-btn text-base md:hidden"
+        popovertarget="mobile-menu"
+        aria-label={t.nav.openMenu}
+      >
+        <Icon name="menu" />
+      </button>
+    </div>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    popover
+    class="fixed inset-x-3 top-[4.75rem] m-0 w-auto rounded-2xl border border-border bg-card p-2 text-foreground shadow-float"
+  >
+    <ul class="flex flex-col">
+      {links.map((link) => (
+        <li>
+          <a
+            class="flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium hover:bg-foreground/5"
+            href={sectionPath(lang, link.id)}
+            data-menu-link
+          >
+            {link.label}
+            <Icon name="arrow-right" class="text-muted-foreground" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>

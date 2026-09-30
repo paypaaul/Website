@@ -1,0 +1,42 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { homeAlternates, homePath } from '@/i18n';
+
+/**
+ * Netlify serves this one file for every unknown URL, in any language, so it is bilingual:
+ * both messages are always shown.
+ */
+---
+
+<BaseLayout title="404 | Paul" alternates={homeAlternates()} noindex>
+  <main id="main" class="relative isolate overflow-hidden">
+    <div class="bg-grid absolute inset-0 -z-10" aria-hidden="true"></div>
+    <div class="hero-glow -z-10" aria-hidden="true"></div>
+    <div class="container-x flex min-h-[100dvh] flex-col items-center justify-center py-32 text-center">
+      <p class="font-mono text-sm tracking-widest text-accent-text uppercase">404</p>
+      <h1 class="mt-4 text-4xl font-semibold tracking-tighter sm:text-6xl">
+        Pagina non trovata
+        <span class="mt-2 block text-2xl font-medium tracking-tight text-muted-foreground sm:text-3xl">
+          Page not found
+        </span>
+      </h1>
+      <p class="mt-6 max-w-md text-lg text-muted-foreground">
+        Il link potrebbe essere errato o la pagina è stata spostata.
+        <span class="mt-1 block">The link may be wrong or the page may have moved.</span>
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <Button href={homePath('it')} size="lg">
+          <Icon name="arrow-left" />
+          Home
+        </Button>
+        <Button href={homePath('en')} variant="secondary" size="lg" lang="en">
+          Home (EN)
+        </Button>
+      </div>
+      <p class="mt-10 text-sm text-muted-foreground">{site.email}</p>
+    </div>
+  </main>
+</BaseLayout>

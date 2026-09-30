@@ -1,0 +1,54 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import type { IconName } from '@/components/ui/icon-names';
+import type { SpecRow } from '@/data/projects';
+import { parseInline, type Lang, type Localized } from '@/i18n';
+
+interface Props {
+  title: string;
+  icon: IconName;
+  lang: Lang;
+  /** A spec sheet (label/value rows)... */
+  rows?: readonly SpecRow[];
+  /** ...or a list of short items (supports **bold**). */
+  items?: readonly Localized[];
+  class?: string;
+}
+
+const { title, icon, lang, rows, items, class: className } = Astro.props;
+---
+
+<section class:list={['card p-6 sm:p-8', className]} data-spotlight data-reveal>
+  <h2 class="flex items-center gap-3 text-lg font-semibold tracking-tight">
+    <span class="grid size-9 place-items-center rounded-xl border border-border bg-muted text-base text-accent-text">
+      <Icon name={icon} />
+    </span>
+    {title}
+  </h2>
+
+  {rows && (
+    <dl class="mt-5">
+      {rows.map((row) => (
+        <div class="grid gap-x-6 gap-y-1 border-t border-border py-3 first:border-t-0 sm:grid-cols-[9rem_1fr]">
+          <dt class="text-sm text-muted-foreground">{row.label[lang]}</dt>
+          <dd class="text-sm font-medium">{row.value[lang]}</dd>
+        </div>
+      ))}
+    </dl>
+  )}
+
+  {items && (
+    <ul class="mt-5 space-y-3">
+      {items.map((item) => (
+        <li class="flex gap-3 text-sm">
+          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+          <span>
+            {parseInline(item[lang]).map((segment) =>
+              segment.bold ? <strong class="font-semibold">{segment.text}</strong> : segment.text,
+            )}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )}
+</section>

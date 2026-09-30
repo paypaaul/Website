@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { projects } from '@/data/projects';
+import { getDictionary, getLang, projectPath, sectionPath } from '@/i18n';
+
+const lang = getLang(Astro);
+const t = getDictionary(lang);
+const featured = projects[0]!;
+---
+
+<section id="top" class="relative isolate overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
+  <div class="bg-grid absolute inset-0 -z-10" aria-hidden="true"></div>
+  <div class="hero-glow -z-10" aria-hidden="true"></div>
+
+  <div class="container-x text-center">
+    <div class="hero-in">
+      <a class="badge" href={sectionPath(lang, 'contact')}>
+        <span class="pulse-dot" aria-hidden="true"></span>
+        {t.hero.badge}
+        <Icon name="arrow-right" class="text-muted-foreground" />
+      </a>
+    </div>
+
+    <h1 class="hero-in mt-8 [--d:60ms] text-5xl leading-[1.05] font-semibold tracking-tighter sm:text-6xl lg:text-7xl">
+      <span class="gradient-text">{t.hero.greeting}</span>{' '}
+      <span class="accent-gradient-text">{t.hero.name}</span>
+    </h1>
+
+    <p class="hero-in mt-6 [--d:120ms] text-xl text-muted-foreground sm:text-2xl">
+      {t.hero.prefix}{' '}
+      <span class="word-rotate font-medium" data-word-rotate aria-hidden="true">
+        {t.hero.phrases.map((phrase, index) => (
+          <span
+            class="word-rotate__item accent-gradient-text"
+            data-state={index === 0 ? 'active' : 'idle'}
+          >
+            {phrase}
+          </span>
+        ))}
+      </span>
+      <span class="sr-only">{t.hero.phrases.join(' ')}</span>
+    </p>
+
+    <p class="hero-in mx-auto mt-5 max-w-2xl [--d:180ms] text-base text-muted-foreground">
+      {t.hero.description}
+    </p>
+
+    <div class="hero-in mt-10 flex flex-wrap items-center justify-center gap-3 [--d:240ms]">
+      <Button href={sectionPath(lang, 'projects')} size="lg">
+        {t.hero.ctaProjects}
+        <Icon name="arrow-down" class="icon-shift-down icon-shift" />
+      </Button>
+      <Button href={`/docs/cv_${lang}.pdf`} variant="secondary" size="lg" external>
+        {t.hero.ctaCv}
+        <Icon name="download" />
+      </Button>
+    </div>
+
+    <ul class="hero-in mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 [--d:300ms] font-mono text-xs tracking-widest text-muted-foreground uppercase">
+      {t.hero.specs.map((spec) => (
+        <li class="flex items-center gap-2">
+          <span class="size-1 rounded-full bg-accent" aria-hidden="true" />
+          {spec}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="hero-in container-x mt-16 [--d:200ms] sm:mt-20">
+    <a
+      href={projectPath(lang, featured.slug)}
+      class="group card relative block rounded-[2rem] p-2 shadow-float"
+      data-spotlight
+    >
+      <div class="relative overflow-hidden rounded-[1.5rem]">
+        <Image
+          src={featured.cover}
+          alt={t.hero.showcaseAlt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 1152px) 1088px, calc(100vw - 3rem)"
+          class="aspect-[4/3] w-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03] sm:aspect-[16/8]"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div
+          class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"
+          aria-hidden="true"
+        ></div>
+        <div class="absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-4 p-5 text-white sm:p-8">
+          <div>
+            <p class="chip border-white/25 bg-black/30 text-white/90 backdrop-blur">
+              {t.hero.showcaseLabel}
+            </p>
+            <p class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+              {featured.name} <span class="font-normal text-white/70">— {featured.kind[lang]}</span>
+            </p>
+          </div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur transition-colors group-hover:bg-white/20">
+            <span class="stretched-link">{t.hero.showcaseCta}</span>
+            <Icon name="arrow-up-right" />
+          </span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>

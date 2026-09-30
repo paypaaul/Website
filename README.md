@@ -1,18 +1,22 @@
 # Website
 
-Portfolio personale di Paolo Vezzini: sito statico bilingue (IT/EN), tema chiaro/scuro, con schede
-progetto interattive (gallerie, video, modello 3D). Deploy su Netlify.
+Portfolio personale di Paolo Vezzini: sito statico bilingue (IT/EN), tema chiaro/scuro, una pagina
+per ogni progetto con galleria, video e modello 3D. Deploy su Netlify.
 
 ## Stack
 
-| Area          | Scelta                                                                      |
-| ------------- | --------------------------------------------------------------------------- |
-| Build         | [Vite](https://vite.dev) (multi-page: `index.html`, `thanks.html`)          |
-| Linguaggi     | HTML semantico, CSS (cascade layers + BEM), JavaScript ES modules (vanilla) |
-| 3D            | [`<model-viewer>`](https://modelviewer.dev), caricato solo quando serve     |
-| Test          | Vitest + jsdom (unit), Playwright + axe-core (e2e, accessibilità)           |
-| Qualità       | ESLint, Stylelint, html-validate, Prettier, GitHub Actions                  |
-| Hosting/Forms | Netlify (header di sicurezza, redirect, Netlify Forms)                      |
+| Area          | Scelta                                                                                   |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| Framework     | [Astro](https://astro.build): HTML statico, zero JavaScript di framework, routing i18n   |
+| Stile         | [Tailwind CSS v4](https://tailwindcss.com) + design token in CSS (`src/styles`)          |
+| Linguaggio    | TypeScript (strict) per dati, i18n e script; componenti `.astro`                         |
+| Font, icone   | Geist (self-hosted); sprite SVG con Lucide e Simple Icons                                |
+| 3D            | [`<model-viewer>`](https://modelviewer.dev), caricato solo quando serve                  |
+| Test          | Vitest + jsdom (unit), Playwright + axe-core (e2e, accessibilità, CSP)                   |
+| Qualità       | `astro check`, ESLint, Prettier (+ plugin Astro/Tailwind), html-validate, GitHub Actions |
+| Hosting/Forms | Netlify (header di sicurezza, redirect, Netlify Forms)                                   |
+
+Le scelte architetturali sono motivate in [`docs/adr/`](docs/adr/).
 
 ## Flusso di lavoro (branch)
 
@@ -27,103 +31,136 @@ feature/xyz ──PR──▶ dev ──PR (release)──▶ main ──▶ Net
 
 - Per modifiche piccole si può lavorare direttamente su `dev`; per quelle più grandi si crea un
   branch `feature/...` da `dev` e si apre una PR verso `dev`.
-- Per pubblicare si apre una PR `dev` → `main`: la CI (lint, test unitari, build, e2e) e il
+- Per pubblicare si apre una PR `dev` → `main`: la CI (typecheck, lint, test unitari, build, e2e) e il
   **deploy preview** di Netlify permettono di controllare il risultato prima del merge.
 - Il merge in `main` si fa con un _merge commit_ (non squash), così `dev` e `main` non divergono.
 - La CI gira a ogni push su `main` e `dev` e su ogni PR.
 
 ## Avvio rapido
 
-Richiede Node.js >= 20 (vedi `.nvmrc`).
+Richiede Node.js >= 22.12 (vedi `.nvmrc`).
 
 ```bash
 npm ci            # installa le dipendenze
 npm run dev       # server di sviluppo con hot reload
 npm run build     # build di produzione in dist/
-npm run preview   # serve dist/ (con gli stessi header/CSP di produzione)
+npm run preview   # serve dist/ come Netlify: URL con slash, header/CSP di produzione, 404
 ```
-
-> Il sito usa moduli ES: aprire `index.html` con doppio click (`file://`) non funziona, usare
-> `npm run dev`.
 
 ## Script
 
-| Comando                   | Cosa fa                                                             |
-| ------------------------- | ------------------------------------------------------------------- |
-| `npm run check`           | Tutto ciò che gira in CI: lint + format + unit test + build         |
-| `npm run lint`            | ESLint, Stylelint e html-validate                                   |
-| `npm run format`          | Formatta con Prettier (`format:check` per solo verificare)          |
-| `npm test`                | Test unitari (`test:watch` in modalità watch)                       |
-| `npm run test:e2e`        | Test end-to-end su Chromium (desktop + mobile) contro il build      |
-| `npm run icons`           | Rigenera `public/icons.svg` (sprite icone) da Font Awesome Free     |
-| `npm run vendor:draco`    | Ricopia il decoder Draco in `public/vendor/draco/`                  |
-| `npm run optimize:images` | Converte PNG/JPG in WebP: `node scripts/optimize-images.mjs in out` |
+| Comando                   | Cosa fa                                                                           |
+| ------------------------- | --------------------------------------------------------------------------------- |
+| `npm run check`           | Tutto ciò che gira in CI: typecheck + lint + format + unit test + build + HTML    |
+| `npm run typecheck`       | `astro check`: tipi di TypeScript e dei componenti `.astro`                       |
+| `npm run lint`            | ESLint (TypeScript + Astro); `lint:html` valida l'HTML generato in `dist/`        |
+| `npm run format`          | Formatta con Prettier (`format:check` per solo verificare)                        |
+| `npm test`                | Test unitari (`test:watch` in modalità watch)                                     |
+| `npm run test:e2e`        | Test end-to-end su Chromium (desktop + mobile) contro il build di produzione      |
+| `npm run icons`           | Rigenera `src/assets/icons.svg` (sprite) e `icon-names.ts` da Lucide/Simple Icons |
+| `npm run og`              | Rigenera l'immagine social `public/og.jpg`                                        |
+| `npm run vendor:draco`    | Ricopia il decoder Draco in `public/vendor/draco/`                                |
+| `npm run optimize:images` | Converte PNG/JPG in WebP: `node scripts/optimize-images.mjs in out`               |
 
 ## Struttura del progetto
 
 ```
 .
-├── index.html, thanks.html     Pagine (sorgente del markup)
+├── astro.config.mjs, netlify.toml, tsconfig.json
 ├── public/                     File copiati così come sono in dist/
 │   ├── _headers                Header di sicurezza (CSP, ...) e cache - fonte unica
 │   ├── docs/                   CV (cv_it.pdf, cv_en.pdf)
-│   ├── icons.svg               Sprite SVG generato da scripts/build-icons.mjs
 │   ├── theme-init.js           Applica il tema prima del primo paint (no flash)
+│   ├── og.jpg, favicon.svg, robots.txt
 │   └── vendor/draco/           Decoder Draco self-hosted per il modello 3D
 ├── src/
-│   ├── main.js                 Entry point: inizializza le feature
-│   ├── config.js               Costanti condivise (chiavi storage, lingua di default, ...)
-│   ├── assets/{img,models}/    Immagini WebP e modello .glb (con hash in build)
-│   ├── i18n/                   Motore di traduzione + locales/{it,en}.js
-│   ├── features/               Una cartella-file per comportamento (vedi sotto)
-│   ├── lib/                    Utility senza dipendenze dal dominio (storage sicuro)
-│   └── styles/                 tokens, base, utilities + components/*.css (BEM)
+│   ├── pages/                  Rotte: index, en/index, progetti/[slug], en/projects/[slug], 404, ...
+│   ├── layouts/BaseLayout      <head> (SEO, hreflang, Open Graph, JSON-LD), navbar, footer
+│   ├── components/
+│   │   ├── ui/                 Mattoni: Button, Icon, SectionHeading
+│   │   ├── layout/             Navbar, Footer
+│   │   ├── sections/           Hero, TechMarquee, Projects, Skills, Support, Contact
+│   │   ├── project/            Gallery, SpecCard (pagina progetto)
+│   │   └── pages/              HomePage, ProjectPage, ThanksPage (condivise tra IT e EN)
+│   ├── data/                   Contenuti tipizzati: progetti (uno per file) e dati del sito
+│   ├── i18n/                   Dizionari it/en tipizzati, URL localizzati, parser del **grassetto**
+│   ├── scripts/                TypeScript lato browser (un modulo per comportamento)
+│   ├── styles/                 tokens.css, effects.css, gallery.css, global.css (Tailwind)
+│   └── assets/                 Immagini WebP, modello .glb, sprite icone (con hash in build)
 ├── tests/
-│   ├── unit/                   Vitest: logica, i18n, integrità dei locale
-│   └── e2e/                    Playwright: flussi reali, CSP, accessibilità
-├── scripts/                    Tool di manutenzione (icone, immagini, Draco)
-├── netlify.toml                Build, publish dir, redirect
+│   ├── unit/                   Vitest: i18n, routing, dati, galleria, tema, ...
+│   └── e2e/                    Playwright: flussi reali, CSP, SEO, accessibilità
+├── scripts/                    Tool di manutenzione e `serve.mjs` (server di produzione locale)
 └── .github/                    CI, Dependabot, template PR, CODEOWNERS
 ```
 
-### Feature (`src/features/`)
+### Lingue e URL
 
-| File                 | Responsabilità                                                                           |
-| -------------------- | ---------------------------------------------------------------------------------------- |
-| `theme.js`           | Tema chiaro/scuro: toggle, persistenza, preferenza di sistema                            |
-| `language-toggle.js` | Pulsante lingua                                                                          |
-| `typewriter.js`      | Animazione di scrittura dell'hero (disattivata con `prefers-reduced-motion`)             |
-| `modals.js`          | Schede progetto su `<dialog>` nativo (focus trap, Esc, backdrop)                         |
-| `carousel.js`        | Galleria accessibile: tastiera, swipe, stop dei video, contatore automatico              |
-| `lazy-modules.js`    | Caricamento on-demand di dipendenze pesanti (`data-lazy-module`)                         |
-| `model-viewer.js`    | Registra `<model-viewer>` e risolve il `.glb` (caricato solo alla prima visualizzazione) |
-| `reveal.js`          | Animazioni allo scroll (`data-reveal`)                                                   |
+L'italiano è la lingua di default e vive alla radice; l'inglese sotto `/en/`. Entrambe le lingue sono
+**pagine statiche complete** (HTML, SEO e `hreflang` corretti, funzionano senza JavaScript). Il
+pulsante lingua è un normale link alla stessa pagina nell'altra lingua.
+
+| Pagina   | Italiano            | Inglese                |
+| -------- | ------------------- | ---------------------- |
+| Home     | `/`                 | `/en/`                 |
+| Progetto | `/progetti/dumb-e/` | `/en/projects/dumb-e/` |
+| Grazie   | `/grazie/`          | `/en/thanks/`          |
+
+### Script lato browser (`src/scripts/`)
+
+| File              | Responsabilità                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| `theme.ts`        | Tema chiaro/scuro: toggle, persistenza, preferenza di sistema, transizione a cerchio |
+| `nav.ts`          | Evidenzia la sezione corrente; chiude il menu mobile                                 |
+| `word-rotate.ts`  | Frasi rotanti dell'hero (statica con `prefers-reduced-motion`)                       |
+| `reveal.ts`       | Animazioni allo scroll (`data-reveal`)                                               |
+| `spotlight.ts`    | Luce che segue il puntatore sulle card (`data-spotlight`)                            |
+| `gallery.ts`      | Galleria accessibile: tastiera, swipe, thumbnail, stop dei video                     |
+| `lazy-modules.ts` | Caricamento on-demand di dipendenze pesanti (`data-lazy-module`)                     |
+| `model-viewer.ts` | Registra `<model-viewer>` e risolve il `.glb` (caricato alla prima visualizzazione)  |
+
+## Design system
+
+- **Token** (`src/styles/tokens.css`): colori semantici per tema chiaro e scuro (`background`,
+  `foreground`, `card`, `muted-foreground`, `border`, `accent`, `primary`, ...). I componenti usano solo
+  questi nomi (es. `bg-card`, `text-muted-foreground`), mai colori grezzi. Le coppie testo/sfondo sono
+  verificate per contrasto AA dai test e2e (axe).
+- **Effetti** (`src/styles/effects.css`): griglia con glow, testo con gradiente, card con spotlight,
+  bordo luminoso (`border-beam`), marquee, reveal con blur, pulsante con riflesso. Ispirati al
+  vocabolario dei componenti shadcn/21st.dev ma in CSS puro, senza framework JavaScript.
+- **Movimento**: tutto rispetta `prefers-reduced-motion` (contenuto sempre visibile, niente animazioni).
 
 ## Come si fa...
 
-**Aggiungere o cambiare un testo.** Ogni testo traducibile ha un attributo `data-i18n="chiave"` (o
-`data-i18n-attr="attributo:chiave"`). Aggiungi la chiave in **entrambi** `src/i18n/locales/it.js` e
-`en.js`, e scrivi lo stesso testo italiano nell'HTML (serve senza JavaScript e ai crawler).
-`npm test` fallisce se le lingue hanno chiavi diverse, se una chiave non è usata, o se l'HTML
-diverge da `it.js`.
+**Cambiare un testo.** Tutti i testi sono in `src/i18n/it.ts` e `src/i18n/en.ts`. L'inglese deve avere
+esattamente la stessa struttura dell'italiano: TypeScript (e `npm run typecheck`) fallisce se manca
+una chiave. Le stringhe non contengono HTML; per il grassetto si usa `**testo**` dove supportato.
 
-**Aggiungere una slide a una galleria.** Copia un `<div class="carousel__slide" data-carousel-slide hidden>`
-in `index.html`. Il contatore "n / totale" si aggiorna da solo. Per un video usa `data-src` (non
-`src`) sull'iframe: viene caricato solo quando la slide è visibile e fermato quando si esce.
+**Aggiungere un progetto.** Copia `src/data/projects/exabot.ts` in un nuovo file, compila i campi
+(testi in italiano e inglese, immagini, media, distinta materiali) e aggiungilo a
+`src/data/projects/index.ts`. Card in home, pagina IT/EN, sitemap e link "prossimo progetto" si
+generano da soli. I test verificano che ogni testo esista in entrambe le lingue.
+
+**Aggiungere una slide a una galleria.** Aggiungi un elemento a `media` del progetto: `image`,
+`video` (solo l'ID YouTube: si carica quando la slide è visibile e si ferma quando si esce) oppure
+`model` (un `.glb` in `src/assets/models/`). Contatore e thumbnail sono automatici.
 
 **Aggiungere un'immagine.** Converti con `npm run optimize:images`, mettila in `src/assets/img/` e
-riferiscila con `./src/assets/img/nome.webp`, con `width`/`height` e `loading="lazy"`.
+usa il componente `<Image>` di Astro: genera da solo le varianti responsive, con `width`/`height`.
 
-**Aggiungere un'icona.** Aggiungila all'elenco in `scripts/build-icons.mjs`, esegui `npm run icons`,
-usa `<svg class="icon"><use href="/icons.svg#nome"></use></svg>`.
+**Aggiungere un'icona.** Aggiungila a `scripts/build-icons.mjs`, esegui `npm run icons` e usa
+`<Icon name="..." />` (i nomi sono tipizzati).
 
-**Aggiungere il link LinkedIn.** In `index.html`, sezione `.social-links`, c'è un commento con il
-punto esatto; l'icona si chiama `linkedin`.
+**Aggiungere il link LinkedIn.** In `src/data/site.ts` c'è il commento con i passi esatti.
+
+**Inserire dimensioni/peso/carico di Exabot.** In `src/data/projects/exabot.ts` aggiungi `specs`: il
+blocco compare da solo nella pagina (finché non è definito, non viene mostrato).
 
 ## Sicurezza
 
-Gli header (CSP restrittiva, `nosniff`, `Referrer-Policy`, ...) sono in `public/_headers`. Lo stesso
-file è letto da `vite preview`, quindi i test e2e girano con la CSP di produzione.
+Gli header (CSP restrittiva, `nosniff`, `Referrer-Policy`, ...) sono in `public/_headers`. `npm run
+preview` e i test e2e li applicano, quindi girano con la CSP di produzione. Nessuno stile né script è
+inline (`build.inlineStylesheets: 'never'`, `assetsInlineLimit: 0`).
 
 - I terzi ammessi sono solo `cdn.counter.dev` (analytics) e `youtube-nocookie.com` (video).
 - `model-viewer` inietta uno `<style>` inline: la CSP lo autorizza con il suo hash SHA-256
@@ -134,10 +171,13 @@ file è letto da `vite preview`, quindi i test e2e girano con la CSP di produzio
 
 ## Form di contatto
 
-Usa Netlify Forms (`data-netlify`) con honeypot (`bot-field`) e pagina di conferma `thanks.html`.
-Netlify rileva il form durante il deploy.
+Usa Netlify Forms (`data-netlify`) con honeypot (`bot-field`) e pagina di conferma localizzata
+(`/grazie/`, `/en/thanks/`). Netlify rileva il form durante il deploy.
 
 ## Note
 
-- Analytics: lo script di [counter.dev](https://counter.dev) è caricato anche in sviluppo locale.
-- Le icone sono [Font Awesome Free](https://fontawesome.com/license/free) (CC BY 4.0).
+- Analytics: [counter.dev](https://counter.dev) viene caricato solo nel build di produzione.
+- Le icone sono [Lucide](https://lucide.dev) (ISC) e [Simple Icons](https://simpleicons.org) (CC0);
+  il font è [Geist](https://vercel.com/font) (SIL OFL 1.1).
+- L'URL del sito (canonical, sitemap, Open Graph) viene dalla variabile `URL` di Netlify, quindi segue
+  il dominio principale configurato; in locale usa il valore di default in `astro.config.mjs`.

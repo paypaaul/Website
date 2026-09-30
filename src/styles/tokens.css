@@ -1,53 +1,57 @@
-/* Design tokens: colors, theming and shared sizing. Components only use these variables. */
-@layer tokens {
-  :root {
-    /* Brand */
-    --primary: #ff6700; /* decorative use: borders, icons, text on dark backgrounds */
-    --primary-text: #bd4a00; /* orange text on light backgrounds (AA contrast) */
-    --btn-bg: #c74f00; /* white text on this has 4.6:1 contrast (AA) */
-    --btn-bg-hover: #a34000;
+/*
+ * Design tokens. Components never use raw colors: they use these semantic variables (exposed to
+ * Tailwind in global.css as bg-background, text-muted-foreground, border-border, ...).
+ * The theme is chosen by [data-theme] on <html>, set before first paint by public/theme-init.js.
+ * All text/background pairs are checked for WCAG AA contrast by the e2e (axe) tests.
+ */
+:root {
+  color-scheme: light;
 
-    /* Surfaces (light) */
-    color-scheme: light;
+  --background: #fafafa;
+  --foreground: #09090b;
+  --card: #fff;
+  --muted: #f4f4f5;
+  --muted-foreground: #52525b;
+  --border: rgb(9 9 11 / 10%);
+  --border-strong: rgb(9 9 11 / 20%);
 
-    --bg-color: #ebebeb;
-    --card-bg: #fff;
-    --text-color: #404040;
-    --text-secondary: #666;
-    --accent: #3a6ea5;
-    --shadow: rgb(0 0 0 / 10%);
-    --modal-overlay: rgb(0 0 0 / 90%);
-    --contact-bg: #2c2c2c;
-    --contact-text: #f0f0f0;
-    --footer-bg: #111;
-    --icon-github: #171515;
-    --icon-print: #333;
-    --icon-brightness: 100%;
+  /* Brand orange. `--accent` is for decoration; text uses `--accent-text` (AA on light surfaces). */
+  --accent: #ff6700;
+  --accent-text: #bd4a00;
+  --accent-from: #e85d04;
+  --accent-to: #bd4a00;
 
-    /* Shared sizing */
-    --container-width: 1300px;
-    --radius-sm: 10px;
-    --radius-md: 15px;
-    --radius-lg: 25px;
-    --transition-theme: 0.4s ease;
-  }
+  /* Primary buttons: white text on this orange has 4.6:1 contrast. */
+  --primary: #c74f00;
+  --primary-hover: #a34000;
+  --primary-foreground: #fff;
 
-  :root[data-theme='dark'] {
-    color-scheme: dark;
+  --grid-line: rgb(9 9 11 / 6%);
+  --glow: rgb(255 103 0 / 18%);
+  --glass: rgb(250 250 250 / 72%);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 4%), 0 12px 32px -16px rgb(0 0 0 / 14%);
+  --shadow-float: 0 12px 40px -12px rgb(0 0 0 / 22%);
+}
 
-    --primary-text: #ff6700;
-    --bg-color: #121212;
-    --card-bg: #1e1e1e;
-    --text-color: #f0f0f0;
-    --text-secondary: #aaa;
-    --accent: #64a6ea;
-    --shadow: rgb(0 0 0 / 50%);
-    --modal-overlay: rgb(0 0 0 / 95%);
-    --contact-bg: #000;
-    --contact-text: #ddd;
-    --footer-bg: #0a0a0a;
-    --icon-github: #fff;
-    --icon-print: #e0e0e0;
-    --icon-brightness: 130%;
-  }
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #111114;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --border: rgb(255 255 255 / 9%);
+  --border-strong: rgb(255 255 255 / 18%);
+
+  --accent: #ff6a00;
+  --accent-text: #ff8a3d;
+  --accent-from: #ffa04d;
+  --accent-to: #ff6700;
+
+  --grid-line: rgb(255 255 255 / 5.5%);
+  --glow: rgb(255 103 0 / 22%);
+  --glass: rgb(9 9 11 / 65%);
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 4%) inset, 0 16px 40px -20px rgb(0 0 0 / 90%);
+  --shadow-float: 0 16px 48px -12px rgb(0 0 0 / 80%);
 }

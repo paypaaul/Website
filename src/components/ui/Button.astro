@@ -1,0 +1,45 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'class'> {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'md' | 'lg';
+  block?: boolean;
+  /** Opens in a new tab with `rel="noopener noreferrer"`. */
+  external?: boolean;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  block = false,
+  external = false,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const classes = [
+  'btn',
+  `btn-${variant}`,
+  size === 'lg' && 'btn-lg',
+  block && 'btn-block',
+  className,
+];
+---
+
+<Tag
+  class:list={classes}
+  href={href}
+  type={href ? undefined : type}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  {...rest}
+>
+  <slot />
+</Tag>

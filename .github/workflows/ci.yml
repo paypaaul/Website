@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   quality:
-    name: Lint, unit tests, build
+    name: Typecheck, lint, unit tests, build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,10 +23,12 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npm run typecheck
       - run: npm run lint
       - run: npm run format:check
       - run: npm test
       - run: npm run build
+      - run: npm run lint:html
 
   e2e:
     name: End-to-end tests (Chromium)
