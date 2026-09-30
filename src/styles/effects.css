@@ -1,8 +1,8 @@
 /*
  * Reusable visual effects and component classes that are too complex for utility classes alone.
- * Inspired by the component vocabulary of the shadcn/ui ecosystem (animated background paths, grid +
- * glow, spotlight cards, border beam, marquee, blur-fade reveal, shimmer button), re-implemented in
- * plain CSS so they ship no JavaScript framework.
+ * Inspired by the component vocabulary of the shadcn/ui ecosystem (grid + glow hero, spotlight
+ * cards, border beam, marquee, blur-fade reveal, shimmer button), re-implemented in plain CSS so
+ * they ship no JavaScript framework.
  */
 
 @layer components {
@@ -44,96 +44,6 @@
     background: radial-gradient(closest-side, var(--glow), transparent);
     filter: blur(48px);
     pointer-events: none;
-  }
-
-  /*
-   * Hero background (components/ui/BackgroundPaths.astro): curves along which a light flows.
-   * `pathLength="1"` normalises every curve to length 1, so a dash pattern of 0.4 + 0.6 draws 40% of
-   * it and animating the offset by -1 moves the light once around, seamlessly. Per-line variety comes
-   * from :nth-child rules because the CSP forbids inline style attributes.
-   */
-  .paths {
-    position: absolute;
-    inset: 0 0 auto;
-    height: min(100%, 56rem);
-    overflow: hidden;
-    color: var(--foreground);
-    opacity: var(--paths-opacity);
-    pointer-events: none;
-    contain: paint;
-    mask-image: radial-gradient(ellipse 70% 78% at 50% 30%, #000 15%, transparent 100%);
-    animation: paths-in 1.6s ease-out backwards;
-  }
-
-  /* A soft patch of page background behind the hero text, so the curves never cut through it. */
-  .paths::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      ellipse 46% 44% at 50% 44%,
-      color-mix(in oklab, var(--background) 90%, transparent) 40%,
-      transparent 100%
-    );
-  }
-
-  /* On narrow screens the text column spans the whole width. */
-  @media (width < 48rem) {
-    .paths::after {
-      background: radial-gradient(
-        ellipse 90% 44% at 50% 44%,
-        color-mix(in oklab, var(--background) 72%, transparent) 40%,
-        transparent 100%
-      );
-    }
-  }
-
-  .paths__svg {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: max(100%, 64rem);
-    height: auto;
-    aspect-ratio: 696 / 316;
-    transform: translateX(-50%);
-    /* The curves start far outside the viewBox; the wrapper does the clipping. */
-    overflow: visible;
-    /* Own compositing layer: the animated strokes repaint here instead of invalidating the whole
-       page (measured: main thread busy 64% -> 13% while the hero is in view). */
-    will-change: transform;
-  }
-
-  .paths__line {
-    stroke-dasharray: 0.4 0.6;
-    animation: paths-flow 26s linear infinite;
-  }
-
-  .paths__line:nth-child(4n + 1) {
-    animation-duration: 21s;
-  }
-
-  .paths__line:nth-child(4n + 2) {
-    animation-duration: 25s;
-  }
-
-  .paths__line:nth-child(4n + 3) {
-    animation-duration: 29s;
-  }
-
-  .paths__line:nth-child(3n + 1) {
-    animation-delay: -4s;
-  }
-
-  .paths__line:nth-child(3n + 2) {
-    animation-delay: -13s;
-  }
-
-  .paths__line:nth-child(5n) {
-    stroke-dasharray: 0.25 0.75;
-  }
-
-  .paths__line:nth-child(7n + 3) {
-    stroke-dasharray: 0.55 0.45;
   }
 
   /* ---------- Text ---------- */
@@ -672,18 +582,6 @@
   }
 }
 
-@keyframes paths-flow {
-  to {
-    stroke-dashoffset: -1;
-  }
-}
-
-@keyframes paths-in {
-  from {
-    opacity: 0;
-  }
-}
-
 @keyframes beam-spin {
   to {
     --beam-angle: 360deg;
@@ -757,15 +655,5 @@ html.theme-transition::view-transition-new(root) {
 
   .border-beam::before {
     animation: none;
-  }
-
-  /* Reduced motion: the curves stand still, drawn whole instead of as frozen dashes. */
-  .paths,
-  .paths__line {
-    animation: none;
-  }
-
-  .paths__line {
-    stroke-dasharray: none !important;
   }
 }
