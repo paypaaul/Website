@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import BackgroundPaths from '@/components/ui/BackgroundPaths.astro';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { projects } from '@/data/projects';
@@ -11,8 +12,7 @@ const featured = projects[0]!;
 ---
 
 <section id="top" class="relative isolate overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
-  <div class="bg-grid absolute inset-0 -z-10" aria-hidden="true"></div>
-  <div class="hero-glow -z-10" aria-hidden="true"></div>
+  <BackgroundPaths class="-z-10" />
 
   <div class="container-x text-center">
     <div class="hero-in">

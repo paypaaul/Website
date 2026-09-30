@@ -125,9 +125,11 @@ pulsante lingua è un normale link alla stessa pagina nell'altra lingua.
   `foreground`, `card`, `muted-foreground`, `border`, `accent`, `primary`, ...). I componenti usano solo
   questi nomi (es. `bg-card`, `text-muted-foreground`), mai colori grezzi. Le coppie testo/sfondo sono
   verificate per contrasto AA dai test e2e (axe).
-- **Effetti** (`src/styles/effects.css`): griglia con glow, testo con gradiente, card con spotlight,
-  bordo luminoso (`border-beam`), marquee, reveal con blur, pulsante con riflesso. Ispirati al
-  vocabolario dei componenti shadcn/21st.dev ma in CSS puro, senza framework JavaScript.
+- **Effetti** (`src/styles/effects.css`): linee animate dello sfondo dell'hero
+  (`components/ui/BackgroundPaths.astro`, SVG + CSS), griglia con glow (404 e pagina di ringraziamento),
+  testo con gradiente, card con spotlight, bordo luminoso (`border-beam`), marquee, reveal con blur,
+  pulsante con riflesso. Ispirati al vocabolario dei componenti shadcn/21st.dev ma in CSS puro, senza
+  framework JavaScript.
 - **Movimento**: tutto rispetta `prefers-reduced-motion` (contenuto sempre visibile, niente animazioni).
 
 ## Come si fa...

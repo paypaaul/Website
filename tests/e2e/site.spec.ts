@@ -220,6 +220,31 @@ test.describe('home page', () => {
     await expect(page.locator('[data-reveal]')).toHaveCount(0);
   });
 
+  test('the hero background is decorative and its curves are animated', async ({ page }) => {
+    await page.goto('/');
+    const background = page.locator('.paths');
+    await expect(background).toHaveAttribute('aria-hidden', 'true');
+    await expect(background).toHaveCSS('pointer-events', 'none');
+    expect(await page.locator('.paths__line').count()).toBeGreaterThan(20);
+
+    // The light flows along the curve: the dash offset keeps changing.
+    const dashOffset = () =>
+      page
+        .locator('.paths__line')
+        .first()
+        .evaluate((line) => getComputedStyle(line).strokeDashoffset);
+    const before = await dashOffset();
+    await expect.poll(dashOffset).not.toBe(before);
+  });
+
+  test('the hero background stands still with prefers-reduced-motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const line = page.locator('.paths__line').first();
+    await expect(line).toHaveCSS('animation-name', 'none');
+    await expect(line).toHaveCSS('stroke-dasharray', 'none');
+  });
+
   test('section links scroll to their section and highlight in the navbar', async ({
     page,
   }, testInfo) => {

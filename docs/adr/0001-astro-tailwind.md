@@ -26,8 +26,10 @@ JavaScript lato client. Le parti interattive sono piccoli moduli TypeScript (`sr
 - **Una pagina per progetto** (case study) generata dai dati, al posto dei modali: URL condivisibili,
   DOM leggero nella home, niente gestione di focus-trap a mano.
 - **Immagini** con `astro:assets` (varianti responsive WebP generate in build).
-- **Effetti in CSS puro** (griglia, glow, spotlight, border beam, marquee, reveal): nessuna libreria di
-  animazione, quasi nessun JavaScript, `prefers-reduced-motion` rispettato ovunque.
+- **Effetti in CSS puro** (linee animate dell'hero, griglia, glow, spotlight, border beam, marquee,
+  reveal): nessuna libreria di animazione, quasi nessun JavaScript, `prefers-reduced-motion` rispettato
+  ovunque. I componenti 21st.dev vengono portati a mano: ad esempio "Background Paths" (React +
+  framer-motion) è `BackgroundPaths.astro`, cioè lo stesso disegno in SVG con animazione CSS.
 
 ## Alternative considerate
 
