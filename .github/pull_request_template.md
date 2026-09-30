@@ -4,7 +4,7 @@
 
 ## Checklist
 
-- [ ] `npm run check` passa (lint, format, test unitari, build)
+- [ ] `npm run check` passa (typecheck, lint, format, test unitari, build, HTML)
 - [ ] `npm run test:e2e` passa (se ho toccato UI, CSP o dipendenze)
-- [ ] Nuovi testi aggiunti in **entrambi** i locale (`src/i18n/locales/it.js` e `en.js`) e nell'HTML in italiano
+- [ ] Testi aggiunti in **entrambe** le lingue (`src/i18n/it.ts` e `src/i18n/en.ts`)
 - [ ] Verificato su mobile e in tema scuro
